@@ -1,4 +1,4 @@
-package com.vincentmasselis.rxui.utils
+package com.vincentmasselis.rxuikotlin.utils
 
 import io.reactivex.subjects.Subject
 

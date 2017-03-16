@@ -1,6 +1,6 @@
-package com.vincentmasselis.rxui
+package com.vincentmasselis.rxuikotlin
 
-import com.vincentmasselis.rxui.utils.*
+import com.vincentmasselis.rxuikotlin.utils.*
 import io.reactivex.disposables.Disposable
 
 //TODO Add securities to avoid memory leaks caused by a wrong state send by the user that cause a

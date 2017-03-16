@@ -1,14 +1,14 @@
-package com.vincentmasselis.rxui
+package com.vincentmasselis.rxuikotlin
 
-import android.app.Fragment
+import android.app.DialogFragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.vincentmasselis.rxui.utils.FragmentLifecycleProvider
-import com.vincentmasselis.rxui.utils.FragmentState
+import com.vincentmasselis.rxuikotlin.utils.FragmentLifecycleProvider
+import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.subjects.BehaviorSubject
 
-open class RxFragment : Fragment(), FragmentLifecycleProvider {
+open class RxDialogFragment : DialogFragment(), FragmentLifecycleProvider {
 
     override val lifecycleObs: BehaviorSubject<FragmentState> = BehaviorSubject.create()
 

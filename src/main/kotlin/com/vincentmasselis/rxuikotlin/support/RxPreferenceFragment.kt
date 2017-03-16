@@ -1,11 +1,11 @@
-package com.vincentmasselis.rxui
+package com.vincentmasselis.rxuikotlin.support
 
 import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import android.view.View
-import com.vincentmasselis.rxui.utils.FragmentLifecycleProvider
-import com.vincentmasselis.rxui.utils.FragmentState
+import com.vincentmasselis.rxuikotlin.utils.FragmentLifecycleProvider
+import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.subjects.BehaviorSubject
 
 open class RxPreferenceFragment : PreferenceFragment(), FragmentLifecycleProvider {

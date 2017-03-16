@@ -1,11 +1,11 @@
-package com.vincentmasselis.rxui.support
+package com.vincentmasselis.rxuikotlin.support
 
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import com.vincentmasselis.rxui.utils.FragmentLifecycleProvider
-import com.vincentmasselis.rxui.utils.FragmentState
+import com.vincentmasselis.rxuikotlin.utils.FragmentLifecycleProvider
+import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.subjects.BehaviorSubject
 
 open class RxFragment : Fragment(), FragmentLifecycleProvider {

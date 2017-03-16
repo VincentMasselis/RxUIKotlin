@@ -1,12 +1,12 @@
-package com.vincentmasselis.rxui
+package com.vincentmasselis.rxuikotlin.support
 
-import android.app.Activity
 import android.os.Bundle
-import com.vincentmasselis.rxui.utils.ActivityLifecycleProvider
-import com.vincentmasselis.rxui.utils.ActivityState
+import android.support.v7.app.AppCompatActivity
+import com.vincentmasselis.rxuikotlin.utils.ActivityLifecycleProvider
+import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import io.reactivex.subjects.BehaviorSubject
 
-open class RxActivity : Activity(), ActivityLifecycleProvider {
+open class RxAppCompatActivity : AppCompatActivity(), ActivityLifecycleProvider {
     override val lifecycleObs: BehaviorSubject<ActivityState> = BehaviorSubject.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {

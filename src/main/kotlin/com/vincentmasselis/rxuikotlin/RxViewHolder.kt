@@ -1,11 +1,11 @@
-package com.vincentmasselis.rxui
+package com.vincentmasselis.rxuikotlin
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.vincentmasselis.rxui.utils.AttachListenerForViewWithLifecycle
-import com.vincentmasselis.rxui.utils.ViewLifecycleProvider
-import com.vincentmasselis.rxui.utils.ViewState
-import com.vincentmasselis.rxui.utils.ViewWithLifecycle
+import com.vincentmasselis.rxuikotlin.utils.AttachListenerForViewWithLifecycle
+import com.vincentmasselis.rxuikotlin.utils.ViewLifecycleProvider
+import com.vincentmasselis.rxuikotlin.utils.ViewState
+import com.vincentmasselis.rxuikotlin.utils.ViewWithLifecycle
 import io.reactivex.subjects.BehaviorSubject
 
 open class RxViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ViewLifecycleProvider, ViewWithLifecycle {

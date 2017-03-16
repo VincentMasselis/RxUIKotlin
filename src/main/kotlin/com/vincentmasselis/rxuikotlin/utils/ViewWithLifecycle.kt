@@ -1,4 +1,4 @@
-package com.vincentmasselis.rxui.utils
+package com.vincentmasselis.rxuikotlin.utils
 
 interface ViewWithLifecycle {
     fun onAttach()
