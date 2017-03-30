@@ -17,41 +17,41 @@ import io.reactivex.disposables.Disposable
 // example.
 
 // Inspired by https://github.com/mg6maciej/DisposeOnDestroy/
-fun Disposable.disposeOnState(exceptedState: ActivityState, activity: Activity): Disposable {
-    activity.application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
+fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: Activity): Disposable {
+    activityToMonitor.application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
 
-        fun disposeAndUnregisterIfRequired(currentState: ActivityState, activityCb: Activity) {
-            if (activityCb == activity && exceptedState == currentState) {
+        fun disposeAndUnregisterIfRequired(currentState: ActivityState, activity: Activity) {
+            if (activity == activityToMonitor && exceptedState == currentState) {
                 if (isDisposed.not()) dispose()
-                activity.application.unregisterActivityLifecycleCallbacks(this)
+                activityToMonitor.application.unregisterActivityLifecycleCallbacks(this)
             }
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(ActivityState.CREATE, activity)
 
-        override fun onActivityStarted(changedActivity: Activity) = disposeAndUnregisterIfRequired(ActivityState.START, activity)
+        override fun onActivityStarted(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.START, activity)
 
-        override fun onActivityResumed(changedActivity: Activity) = disposeAndUnregisterIfRequired(ActivityState.RESUME, activity)
+        override fun onActivityResumed(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.RESUME, activity)
 
-        override fun onActivityPaused(changedActivity: Activity) = disposeAndUnregisterIfRequired(ActivityState.PAUSE, activity)
+        override fun onActivityPaused(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.PAUSE, activity)
 
-        override fun onActivityStopped(changedActivity: Activity) = disposeAndUnregisterIfRequired(ActivityState.STOP, activity)
+        override fun onActivityStopped(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.STOP, activity)
 
-        override fun onActivitySaveInstanceState(changedActivity: Activity, outState: Bundle?) = disposeAndUnregisterIfRequired(ActivityState.SAVE_INSTANCE_STATE, activity)
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) = disposeAndUnregisterIfRequired(ActivityState.SAVE_INSTANCE_STATE, activity)
 
-        override fun onActivityDestroyed(changedActivity: Activity) = disposeAndUnregisterIfRequired(ActivityState.DESTROY, activity)
+        override fun onActivityDestroyed(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.DESTROY, activity)
     })
     return this
 }
 
 // Inspired by https://github.com/mg6maciej/DisposeOnDestroy/
-fun Disposable.disposeOnState(exceptedState: FragmentState, fragment: Fragment): Disposable {
-    fragment.fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: Fragment): Disposable {
+    fragmentToMonitor.fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
-        fun disposeAndUnregisterIfRequired(currentState: FragmentState, fragmentManagerCb: FragmentManager, fragmentCb: Fragment) {
-            if (fragmentManagerCb == fragment.fragmentManager && fragmentCb == fragment && currentState == exceptedState) {
+        fun disposeAndUnregisterIfRequired(currentState: FragmentState, fragmentManager: FragmentManager, fragment: Fragment) {
+            if (fragmentManager == fragmentToMonitor.fragmentManager && fragment == fragmentToMonitor && currentState == exceptedState) {
                 if (isDisposed.not()) dispose()
-                fragmentManagerCb.unregisterFragmentLifecycleCallbacks(this)
+                fragmentManager.unregisterFragmentLifecycleCallbacks(this)
             }
         }
 
