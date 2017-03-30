@@ -1,6 +1,7 @@
 package com.vincentmasselis.rxuikotlin.utils
 
 import android.view.View
+import com.vincentmasselis.rxuikotlin.RxViewInterface
 import io.reactivex.subjects.Subject
 import java.lang.ref.WeakReference
 
@@ -18,5 +19,4 @@ internal class RxViewAttachListener(viewWithLifecycle: RxViewInterface, subject:
         viewWithLifecycle.get()?.onDetach()
         subject.get()?.onNext(ViewState.DETACH)
     }
-
 }

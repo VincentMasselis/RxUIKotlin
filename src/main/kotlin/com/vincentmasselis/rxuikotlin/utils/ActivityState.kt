@@ -6,15 +6,17 @@ enum class ActivityState {
     RESUME,
     PAUSE,
     STOP,
+    SAVE_INSTANCE_STATE,
     DESTROY;
 
-    fun opposite(): ActivityState =
+    @Throws(NoOpposite.ActivityStateException::class) fun opposite(): ActivityState =
             when (this) {
-                ActivityState.CREATE -> DESTROY
-                ActivityState.START -> STOP
-                ActivityState.RESUME -> PAUSE
-                ActivityState.PAUSE -> RESUME
-                ActivityState.STOP -> START
-                ActivityState.DESTROY -> CREATE
+                CREATE -> DESTROY
+                START -> STOP
+                RESUME -> PAUSE
+                PAUSE -> RESUME
+                STOP -> START
+                SAVE_INSTANCE_STATE -> throw NoOpposite.ActivityStateException(this)
+                DESTROY -> CREATE
             }
 }
