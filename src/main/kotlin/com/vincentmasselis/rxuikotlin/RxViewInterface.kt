@@ -1,5 +1,6 @@
 package com.vincentmasselis.rxuikotlin
 
+import android.support.v4.view.ViewCompat
 import android.view.View
 import com.vincentmasselis.rxuikotlin.utils.RxViewAttachListener
 import com.vincentmasselis.rxuikotlin.utils.ViewLifecycleProvider
@@ -40,6 +41,9 @@ interface RxViewInterface : ViewLifecycleProvider {
         else throw IllegalStateException("initLifecycle() is called twice, it must be called only once")
 
         view.addOnAttachStateChangeListener(RxViewAttachListener(this, lifecycleObs))
+
+        if (ViewCompat.isAttachedToWindow(view)) //If the view is attached before the listener is added, I manually call the [onAttach] method.
+            onAttach()
     }
 
     fun onAttach() {}
