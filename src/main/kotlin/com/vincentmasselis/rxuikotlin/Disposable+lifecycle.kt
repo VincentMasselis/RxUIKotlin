@@ -25,7 +25,7 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
 
         fun disposeAndUnregisterIfRequired(currentState: ActivityState, activity: Activity) {
             if (activity == activityToMonitor && exceptedState == currentState) {
-                if (isDisposed.not()) dispose()
+                dispose()
                 activityToMonitor.application.unregisterActivityLifecycleCallbacks(this)
             }
         }
@@ -61,7 +61,7 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         fun disposeAndUnregisterIfRequired(currentState: FragmentState, fragmentManager: FragmentManager, fragment: Fragment) {
             if (fragmentManager == fragmentToMonitor.fragmentManager && fragment == fragmentToMonitor && currentState == exceptedState) {
-                if (isDisposed.not()) dispose()
+                dispose()
                 fragmentManager.unregisterFragmentLifecycleCallbacks(this)
             }
         }
@@ -117,8 +117,7 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLife
                     }
 
                     override fun onSuccess(t: ServiceState) {
-                        if (isDisposed.not())
-                            dispose()
+                        dispose()
                         localDisposable?.dispose()
                     }
 
@@ -127,8 +126,7 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLife
                     }
 
                     override fun onComplete() {
-                        if (isDisposed.not())
-                            dispose()
+                        dispose()
                         localDisposable?.dispose()
                     }
 
@@ -157,8 +155,7 @@ fun Disposable.disposeOnState(exceptedState: ViewState, provider: ViewLifecycleP
                     }
 
                     override fun onSuccess(t: ViewState) {
-                        if (isDisposed.not())
-                            dispose()
+                        dispose()
                         localDisposable?.dispose()
                     }
 
@@ -167,8 +164,7 @@ fun Disposable.disposeOnState(exceptedState: ViewState, provider: ViewLifecycleP
                     }
 
                     override fun onComplete() {
-                        if (isDisposed.not())
-                            dispose()
+                        dispose()
                         localDisposable?.dispose()
                     }
 
