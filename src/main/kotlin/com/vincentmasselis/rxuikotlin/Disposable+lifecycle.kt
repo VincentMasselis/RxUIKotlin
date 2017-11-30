@@ -110,7 +110,7 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLife
                 .firstElement()
                 .subscribe(object : MaybeObserver<ServiceState> {
 
-                    private var localDisposable: Disposable? = null
+                    private lateinit var localDisposable: Disposable
 
                     override fun onSubscribe(d: Disposable) {
                         localDisposable = d
@@ -118,7 +118,7 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLife
 
                     override fun onSuccess(t: ServiceState) {
                         dispose()
-                        localDisposable?.dispose()
+                        localDisposable.dispose()
                     }
 
                     override fun onError(e: Throwable) {
@@ -127,7 +127,7 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLife
 
                     override fun onComplete() {
                         dispose()
-                        localDisposable?.dispose()
+                        localDisposable.dispose()
                     }
 
                 })
@@ -148,7 +148,7 @@ fun Disposable.disposeOnState(exceptedState: ViewState, provider: ViewLifecycleP
                 .firstElement()
                 .subscribe(object : MaybeObserver<ViewState> {
 
-                    private var localDisposable: Disposable? = null
+                    private lateinit var localDisposable: Disposable
 
                     override fun onSubscribe(d: Disposable) {
                         localDisposable = d
@@ -156,7 +156,7 @@ fun Disposable.disposeOnState(exceptedState: ViewState, provider: ViewLifecycleP
 
                     override fun onSuccess(t: ViewState) {
                         dispose()
-                        localDisposable?.dispose()
+                        localDisposable.dispose()
                     }
 
                     override fun onError(e: Throwable) {
@@ -165,7 +165,7 @@ fun Disposable.disposeOnState(exceptedState: ViewState, provider: ViewLifecycleP
 
                     override fun onComplete() {
                         dispose()
-                        localDisposable?.dispose()
+                        localDisposable.dispose()
                     }
 
                 })
