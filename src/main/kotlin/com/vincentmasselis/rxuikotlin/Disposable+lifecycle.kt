@@ -97,14 +97,14 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
 /**
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
- * [provider]
+ * [serviceToMonitor]
  *
  * Be careful to send a [exceptedState] which can be reached. As long as the state is not reached,
- * the code listen to the lifecycle even if the [provider] is [ServiceState.DESTROY], which can
+ * the code listen to the lifecycle even if the [serviceToMonitor] is [ServiceState.DESTROY], which can
  * leads to memory leaks.
  */
-fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLifecycleProvider) =
-        provider
+fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: ServiceLifecycleProvider) =
+        serviceToMonitor
                 .lifecycleObs
                 .filter { it == exceptedState }
                 .firstElement()
@@ -135,14 +135,14 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, provider: ServiceLife
 
 /**
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
- * [provider]
+ * [viewToMonitor]
  *
  * Be careful to send a [exceptedState] which can be reached. As long as the state is not reached,
- * the code listen to the lifecycle even if the [provider] is [ViewState.DETACH], which can leads
+ * the code listen to the lifecycle even if the [viewToMonitor] is [ViewState.DETACH], which can leads
  * to memory leaks.
  */
-fun Disposable.disposeOnState(exceptedState: ViewState, provider: ViewLifecycleProvider) =
-        provider
+fun Disposable.disposeOnState(exceptedState: ViewState, viewToMonitor: ViewLifecycleProvider) =
+        viewToMonitor
                 .lifecycleObs
                 .filter { it == exceptedState }
                 .firstElement()
