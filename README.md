@@ -49,7 +49,7 @@ That's all !
 
 ## Lifecycle for custom views
 
-Unlike `Activity`, `Fragment` or `Service` a view doesn't have any lifecycle, to simulate it, RxUIKotlin use the `View.addOnAttachStateChangeListener()` method to detect when to call `dispose()`. In addition, RxUIKotlin expose the methods `onAttach()` and `onDetach()` that you can override in your custom view.
+Unlike `Activity`, `Fragment` or `Service` a view doesn't have any lifecycle, to simulate it, RxUIKotlin use the [View.addOnAttachStateChangeListener()](https://developer.android.com/reference/android/view/View.OnAttachStateChangeListener.html) method to detect when to call `dispose()`. In addition, RxUIKotlin expose the methods `onAttach()` and `onDetach()` that you can override in your custom view.
 
 To correctly create a custom view which can be used in the method `disposeOnState`, implement `RxViewInterface` in your custom view :
 ```kotlin
