@@ -57,7 +57,9 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
  * which can leads to memory leaks.
  */
 fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: Fragment): Disposable {
-    fragmentToMonitor.fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+    val fragmentManager = fragmentToMonitor.fragmentManager ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, in this case this method must called inside or after onFragmentAttached(). See Fragment.getFragmentManager() method doc")
+
+    fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
         fun disposeAndUnregisterIfRequired(currentState: FragmentState, fragmentManager: FragmentManager, fragment: Fragment) {
             if (fragmentManager == fragmentToMonitor.fragmentManager && fragment == fragmentToMonitor && currentState == exceptedState) {
