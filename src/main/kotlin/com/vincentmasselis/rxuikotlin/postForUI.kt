@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
  * @return The disposable of the inner subscription.
  */
 fun Activity.postForUI(delay: Pair<Long, TimeUnit>? = null, state: ActivityState = ActivityState.DESTROY, lambda: () -> Unit) =
-        buildChain(delay, lambda).disposeOnState(state, this)
+    buildChain(delay, lambda).disposeOnState(state, this)
 
 /**
  * Compact helper method to execute a [lambda] on the main thread if the current [Fragment]'s view
@@ -30,7 +30,7 @@ fun Activity.postForUI(delay: Pair<Long, TimeUnit>? = null, state: ActivityState
  * @return The disposable of the inner subscription.
  */
 fun Fragment.postForUI(delay: Pair<Long, TimeUnit>? = null, state: FragmentState = FragmentState.DESTROY_VIEW, lambda: () -> Unit) =
-        buildChain(delay, lambda).disposeOnState(state, this)
+    buildChain(delay, lambda).disposeOnState(state, this)
 
 /**
  * Compact helper method to execute a [lambda] on the main thread if the current [RxViewInterface]'s
@@ -41,13 +41,13 @@ fun Fragment.postForUI(delay: Pair<Long, TimeUnit>? = null, state: FragmentState
  * @return The disposable of the inner subscription.
  */
 fun RxViewInterface.postForUI(delay: Pair<Long, TimeUnit>? = null, state: ViewState = ViewState.DETACH, lambda: () -> Unit) =
-        buildChain(delay, lambda).disposeOnState(state, this)
+    buildChain(delay, lambda).disposeOnState(state, this)
 
 private fun buildChain(delay: Pair<Long, TimeUnit>? = null, lambda: () -> Unit) =
-        (if (delay != null) Completable.timer(delay.first, delay.second, AndroidSchedulers.mainThread())
-        else Completable.complete())
-                .compose {
-                    if (Looper.myLooper() != Looper.getMainLooper() && delay == null) it.observeOn(AndroidSchedulers.mainThread())
-                    else it
-                }
-                .subscribe(lambda)
+    (if (delay != null) Completable.timer(delay.first, delay.second, AndroidSchedulers.mainThread())
+    else Completable.complete())
+        .compose {
+            if (Looper.myLooper() != Looper.getMainLooper() && delay == null) it.observeOn(AndroidSchedulers.mainThread())
+            else it
+        }
+        .subscribe(lambda)

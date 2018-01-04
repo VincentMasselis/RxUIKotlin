@@ -57,7 +57,8 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
  * which can leads to memory leaks.
  */
 fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: Fragment): Disposable {
-    val fragmentManager = fragmentToMonitor.fragmentManager ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, in this case this method must called inside or after onFragmentAttached(). See Fragment.getFragmentManager() method doc")
+    val fragmentManager = fragmentToMonitor.fragmentManager
+            ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, in this case this method must called inside or after onFragmentAttached(). See Fragment.getFragmentManager() method doc")
 
     fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
@@ -74,9 +75,11 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.CREATE, fm, f)
 
-        override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.ACTIVITY_CREATED, fm, f)
+        override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) =
+            disposeAndUnregisterIfRequired(FragmentState.ACTIVITY_CREATED, fm, f)
 
-        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.VIEW_CREATED, fm, f)
+        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) =
+            disposeAndUnregisterIfRequired(FragmentState.VIEW_CREATED, fm, f)
 
         override fun onFragmentStarted(fm: FragmentManager, f: Fragment) = disposeAndUnregisterIfRequired(FragmentState.START, fm, f)
 
@@ -106,34 +109,34 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
  * leads to memory leaks.
  */
 fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: ServiceLifecycleProvider) =
-        serviceToMonitor
-                .lifecycleObs
-                .filter { it == exceptedState }
-                .firstElement()
-                .subscribe(object : MaybeObserver<ServiceState> {
+    serviceToMonitor
+        .lifecycleObs
+        .filter { it == exceptedState }
+        .firstElement()
+        .subscribe(object : MaybeObserver<ServiceState> {
 
-                    private lateinit var localDisposable: Disposable
+            private lateinit var localDisposable: Disposable
 
-                    override fun onSubscribe(d: Disposable) {
-                        localDisposable = d
-                    }
+            override fun onSubscribe(d: Disposable) {
+                localDisposable = d
+            }
 
-                    override fun onSuccess(t: ServiceState) {
-                        dispose()
-                        localDisposable.dispose()
-                    }
+            override fun onSuccess(t: ServiceState) {
+                dispose()
+                localDisposable.dispose()
+            }
 
-                    override fun onError(e: Throwable) {
-                        throw IllegalStateException("lifecycleObs should never emit any error")
-                    }
+            override fun onError(e: Throwable) {
+                throw IllegalStateException("lifecycleObs should never emit any error")
+            }
 
-                    override fun onComplete() {
-                        dispose()
-                        localDisposable.dispose()
-                    }
+            override fun onComplete() {
+                dispose()
+                localDisposable.dispose()
+            }
 
-                })
-                .let { this@disposeOnState }
+        })
+        .let { this@disposeOnState }
 
 /**
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
@@ -144,31 +147,31 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: Ser
  * to memory leaks.
  */
 fun Disposable.disposeOnState(exceptedState: ViewState, viewToMonitor: ViewLifecycleProvider) =
-        viewToMonitor
-                .lifecycleObs
-                .filter { it == exceptedState }
-                .firstElement()
-                .subscribe(object : MaybeObserver<ViewState> {
+    viewToMonitor
+        .lifecycleObs
+        .filter { it == exceptedState }
+        .firstElement()
+        .subscribe(object : MaybeObserver<ViewState> {
 
-                    private lateinit var localDisposable: Disposable
+            private lateinit var localDisposable: Disposable
 
-                    override fun onSubscribe(d: Disposable) {
-                        localDisposable = d
-                    }
+            override fun onSubscribe(d: Disposable) {
+                localDisposable = d
+            }
 
-                    override fun onSuccess(t: ViewState) {
-                        dispose()
-                        localDisposable.dispose()
-                    }
+            override fun onSuccess(t: ViewState) {
+                dispose()
+                localDisposable.dispose()
+            }
 
-                    override fun onError(e: Throwable) {
-                        throw IllegalStateException("lifecycleObs should never emit any error")
-                    }
+            override fun onError(e: Throwable) {
+                throw IllegalStateException("lifecycleObs should never emit any error")
+            }
 
-                    override fun onComplete() {
-                        dispose()
-                        localDisposable.dispose()
-                    }
+            override fun onComplete() {
+                dispose()
+                localDisposable.dispose()
+            }
 
-                })
-                .let { this@disposeOnState }
+        })
+        .let { this@disposeOnState }

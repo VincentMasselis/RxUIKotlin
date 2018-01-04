@@ -5,8 +5,8 @@ enum class ViewState {
     DETACH;
 
     fun opposite(): ViewState =
-            when (this) {
-                ViewState.ATTACH -> DETACH
-                ViewState.DETACH -> ATTACH
-            }
+        when (this) {
+            ViewState.ATTACH -> DETACH
+            ViewState.DETACH -> ATTACH
+        }
 }

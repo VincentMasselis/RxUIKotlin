@@ -5,8 +5,8 @@ enum class ServiceState {
     DESTROY;
 
     fun opposite(): ServiceState =
-            when (this) {
-                ServiceState.CREATE -> DESTROY
-                ServiceState.DESTROY -> CREATE
-            }
+        when (this) {
+            ServiceState.CREATE -> DESTROY
+            ServiceState.DESTROY -> CREATE
+        }
 }

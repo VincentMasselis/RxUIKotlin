@@ -15,20 +15,21 @@ enum class FragmentState {
     DESTROY,
     DETACH;
 
-    @Throws(NoOpposite.FragmentStateException::class) fun opposite(): FragmentState =
-            when (this) {
-                PRE_ATTACH -> throw NoOpposite.FragmentStateException(this)
-                ATTACH -> DETACH
-                CREATE -> DESTROY
-                ACTIVITY_CREATED -> throw NoOpposite.FragmentStateException(this)
-                VIEW_CREATED -> DESTROY_VIEW
-                START -> STOP
-                RESUME -> PAUSE
-                PAUSE -> RESUME
-                STOP -> START
-                SAVE_INSTANCE_STATE -> throw NoOpposite.FragmentStateException(this)
-                DESTROY_VIEW -> VIEW_CREATED
-                DESTROY -> CREATE
-                DETACH -> ATTACH
-            }
+    @Throws(NoOpposite.FragmentStateException::class)
+    fun opposite(): FragmentState =
+        when (this) {
+            PRE_ATTACH -> throw NoOpposite.FragmentStateException(this)
+            ATTACH -> DETACH
+            CREATE -> DESTROY
+            ACTIVITY_CREATED -> throw NoOpposite.FragmentStateException(this)
+            VIEW_CREATED -> DESTROY_VIEW
+            START -> STOP
+            RESUME -> PAUSE
+            PAUSE -> RESUME
+            STOP -> START
+            SAVE_INSTANCE_STATE -> throw NoOpposite.FragmentStateException(this)
+            DESTROY_VIEW -> VIEW_CREATED
+            DESTROY -> CREATE
+            DETACH -> ATTACH
+        }
 }
