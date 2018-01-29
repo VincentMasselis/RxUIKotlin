@@ -24,10 +24,11 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
     activityToMonitor.application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
 
         fun disposeAndUnregisterIfRequired(currentState: ActivityState, activity: Activity) {
-            if (activity == activityToMonitor && exceptedState == currentState) {
+            if (activity == activityToMonitor && exceptedState == currentState)
                 dispose()
+
+            if (isDisposed)
                 activityToMonitor.application.unregisterActivityLifecycleCallbacks(this)
-            }
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(ActivityState.CREATE, activity)
@@ -63,10 +64,11 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
     fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
         fun disposeAndUnregisterIfRequired(currentState: FragmentState, fragmentManager: FragmentManager, fragment: Fragment) {
-            if (fragmentManager == fragmentToMonitor.fragmentManager && fragment == fragmentToMonitor && currentState == exceptedState) {
+            if (fragmentManager == fragmentToMonitor.fragmentManager && fragment == fragmentToMonitor && currentState == exceptedState)
                 dispose()
+
+            if (isDisposed)
                 fragmentManager.unregisterFragmentLifecycleCallbacks(this)
-            }
         }
 
         override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) = disposeAndUnregisterIfRequired(FragmentState.PRE_ATTACH, fm, f)
@@ -108,22 +110,25 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
  * the code listen to the lifecycle even if the [serviceToMonitor] is [ServiceState.DESTROY], which can
  * leads to memory leaks.
  */
-fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: ServiceLifecycleProvider) =
+fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: ServiceLifecycleProvider): Disposable {
+    var lifecycleDisp: Disposable? = null
     serviceToMonitor
         .lifecycleObs
+        .doOnEach {
+            if (isDisposed)
+                lifecycleDisp?.dispose()
+        }
         .filter { it == exceptedState }
         .firstElement()
         .subscribe(object : MaybeObserver<ServiceState> {
 
-            private lateinit var localDisposable: Disposable
-
             override fun onSubscribe(d: Disposable) {
-                localDisposable = d
+                lifecycleDisp = d
             }
 
             override fun onSuccess(t: ServiceState) {
                 dispose()
-                localDisposable.dispose()
+                lifecycleDisp?.dispose()
             }
 
             override fun onError(e: Throwable) {
@@ -132,11 +137,11 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: Ser
 
             override fun onComplete() {
                 dispose()
-                localDisposable.dispose()
+                lifecycleDisp?.dispose()
             }
-
         })
-        .let { this@disposeOnState }
+    return this
+}
 
 /**
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
@@ -146,22 +151,25 @@ fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: Ser
  * the code listen to the lifecycle even if the [viewToMonitor] is [ViewState.DETACH], which can leads
  * to memory leaks.
  */
-fun Disposable.disposeOnState(exceptedState: ViewState, viewToMonitor: ViewLifecycleProvider) =
+fun Disposable.disposeOnState(exceptedState: ViewState, viewToMonitor: ViewLifecycleProvider): Disposable {
+    var lifecycleDisp: Disposable? = null
     viewToMonitor
         .lifecycleObs
+        .doOnEach {
+            if (isDisposed)
+                lifecycleDisp?.dispose()
+        }
         .filter { it == exceptedState }
         .firstElement()
         .subscribe(object : MaybeObserver<ViewState> {
 
-            private lateinit var localDisposable: Disposable
-
             override fun onSubscribe(d: Disposable) {
-                localDisposable = d
+                lifecycleDisp = d
             }
 
             override fun onSuccess(t: ViewState) {
                 dispose()
-                localDisposable.dispose()
+                lifecycleDisp?.dispose()
             }
 
             override fun onError(e: Throwable) {
@@ -170,8 +178,8 @@ fun Disposable.disposeOnState(exceptedState: ViewState, viewToMonitor: ViewLifec
 
             override fun onComplete() {
                 dispose()
-                localDisposable.dispose()
+                lifecycleDisp?.dispose()
             }
-
         })
-        .let { this@disposeOnState }
+    return this
+}
