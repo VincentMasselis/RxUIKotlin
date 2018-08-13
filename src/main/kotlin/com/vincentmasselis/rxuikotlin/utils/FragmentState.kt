@@ -3,6 +3,7 @@ package com.vincentmasselis.rxuikotlin.utils
 enum class FragmentState {
     PRE_ATTACH,
     ATTACH,
+    PRE_CREATE,
     CREATE,
     ACTIVITY_CREATED,
     VIEW_CREATED,
@@ -20,6 +21,7 @@ enum class FragmentState {
         when (this) {
             PRE_ATTACH -> throw NoOpposite.FragmentStateException(this)
             ATTACH -> DETACH
+            PRE_CREATE -> throw NoOpposite.FragmentStateException(this)
             CREATE -> DESTROY
             ACTIVITY_CREATED -> throw NoOpposite.FragmentStateException(this)
             VIEW_CREATED -> DESTROY_VIEW

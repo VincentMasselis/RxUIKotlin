@@ -75,6 +75,8 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context?) = disposeAndUnregisterIfRequired(FragmentState.ATTACH, fm, f)
 
+        override fun onFragmentPreCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.PRE_CREATE, fm, f)
+
         override fun onFragmentCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.CREATE, fm, f)
 
         override fun onFragmentActivityCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) =
