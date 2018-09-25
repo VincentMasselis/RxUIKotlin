@@ -4,9 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.vincentmasselis.rxuikotlin.utils.*
 import io.reactivex.MaybeObserver
 import io.reactivex.disposables.Disposable
@@ -73,7 +73,7 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) = disposeAndUnregisterIfRequired(FragmentState.PRE_ATTACH, fm, f)
 
-        override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context?) = disposeAndUnregisterIfRequired(FragmentState.ATTACH, fm, f)
+        override fun onFragmentAttached(fm: FragmentManager, f: Fragment, context: Context) = disposeAndUnregisterIfRequired(FragmentState.ATTACH, fm, f)
 
         override fun onFragmentPreCreated(fm: FragmentManager, f: Fragment, savedInstanceState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.PRE_CREATE, fm, f)
 
@@ -93,7 +93,7 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         override fun onFragmentStopped(fm: FragmentManager, f: Fragment) = disposeAndUnregisterIfRequired(FragmentState.STOP, fm, f)
 
-        override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle?) = disposeAndUnregisterIfRequired(FragmentState.SAVE_INSTANCE_STATE, fm, f)
+        override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) = disposeAndUnregisterIfRequired(FragmentState.SAVE_INSTANCE_STATE, fm, f)
 
         override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) = disposeAndUnregisterIfRequired(FragmentState.DESTROY_VIEW, fm, f)
 

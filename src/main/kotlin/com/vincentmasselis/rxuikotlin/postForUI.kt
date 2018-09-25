@@ -2,7 +2,7 @@ package com.vincentmasselis.rxuikotlin
 
 import android.app.Activity
 import android.os.Looper
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import com.vincentmasselis.rxuikotlin.utils.ViewState
