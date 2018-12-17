@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.vincentmasselis.rxuikotlin.utils.*
-import io.reactivex.MaybeObserver
+import com.vincentmasselis.rxuikotlin.utils.ActivityState
+import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.disposables.Disposable
 
 // Inspired by https://github.com/mg6maciej/DisposeOnDestroy/
@@ -101,87 +101,5 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         override fun onFragmentDetached(fm: FragmentManager, f: Fragment) = disposeAndUnregisterIfRequired(FragmentState.DETACH, fm, f)
     }, false)
-    return this
-}
-
-/**
- * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
- * [serviceToMonitor]
- *
- * Be careful to send a [exceptedState] which can be reached. As long as the state is not reached,
- * the code listen to the lifecycle even if the [serviceToMonitor] is [ServiceState.DESTROY], which can
- * leads to memory leaks.
- */
-fun Disposable.disposeOnState(exceptedState: ServiceState, serviceToMonitor: ServiceLifecycleProvider): Disposable {
-    var lifecycleDisp: Disposable? = null
-    serviceToMonitor
-        .lifecycleObs
-        .doOnEach {
-            if (isDisposed)
-                lifecycleDisp?.dispose()
-        }
-        .filter { it == exceptedState }
-        .firstElement()
-        .subscribe(object : MaybeObserver<ServiceState> {
-
-            override fun onSubscribe(d: Disposable) {
-                lifecycleDisp = d
-            }
-
-            override fun onSuccess(t: ServiceState) {
-                dispose()
-                lifecycleDisp?.dispose()
-            }
-
-            override fun onError(e: Throwable) {
-                throw IllegalStateException("lifecycleObs should never emit any error")
-            }
-
-            override fun onComplete() {
-                dispose()
-                lifecycleDisp?.dispose()
-            }
-        })
-    return this
-}
-
-/**
- * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
- * [viewToMonitor]
- *
- * Be careful to send a [exceptedState] which can be reached. As long as the state is not reached,
- * the code listen to the lifecycle even if the [viewToMonitor] is [ViewState.DETACH], which can leads
- * to memory leaks.
- */
-fun Disposable.disposeOnState(exceptedState: ViewState, viewToMonitor: ViewLifecycleProvider): Disposable {
-    var lifecycleDisp: Disposable? = null
-    viewToMonitor
-        .lifecycleObs
-        .doOnEach {
-            if (isDisposed)
-                lifecycleDisp?.dispose()
-        }
-        .filter { it == exceptedState }
-        .firstElement()
-        .subscribe(object : MaybeObserver<ViewState> {
-
-            override fun onSubscribe(d: Disposable) {
-                lifecycleDisp = d
-            }
-
-            override fun onSuccess(t: ViewState) {
-                dispose()
-                lifecycleDisp?.dispose()
-            }
-
-            override fun onError(e: Throwable) {
-                throw IllegalStateException("lifecycleObs should never emit any error")
-            }
-
-            override fun onComplete() {
-                dispose()
-                lifecycleDisp?.dispose()
-            }
-        })
     return this
 }
