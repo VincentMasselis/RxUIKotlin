@@ -1,3 +1,4 @@
+// Inspired by https://github.com/mg6maciej/DisposeOnDestroy/
 package com.vincentmasselis.rxuikotlin
 
 import android.app.Activity
@@ -11,14 +12,13 @@ import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.disposables.Disposable
 
-// Inspired by https://github.com/mg6maciej/DisposeOnDestroy/
 /**
- * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
- * [activityToMonitor]
+ * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the [activityToMonitor]
  *
- * Be careful to send a [exceptedState] which can be reached. As long as the state is not reached,
- * the code listen to the lifecycle even if the [activityToMonitor] is [ActivityState.DESTROY],
- * which can leads to memory leaks.
+ * Be careful while setting up a value to [exceptedState]. As long as the state is not reached, the code listen to the lifecycle even if the [activityToMonitor] is
+ * [ActivityState.DESTROY], this state can lead to memory leaks.
+ *
+ * @see FragmentManager.registerFragmentLifecycleCallbacks
  */
 fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: Activity): Disposable {
     activityToMonitor.application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
@@ -48,18 +48,17 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
     return this
 }
 
-// Inspired by https://github.com/mg6maciej/DisposeOnDestroy/
 /**
- * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the
- * [fragmentToMonitor]
+ * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the [fragmentToMonitor]
  *
- * Be careful to send a [exceptedState] which can be reached. As long as the state is not reached,
- * the code listen to the lifecycle even if the [fragmentToMonitor] is [FragmentState.DESTROY],
- * which can leads to memory leaks.
+ * Be careful while setting up a value to [exceptedState]. As long as the state is not reached, the code listen to the lifecycle even if the [fragmentToMonitor] is
+ * [FragmentState.DETACH], this state can lead to memory leaks.
+ *
+ * @see FragmentManager.registerFragmentLifecycleCallbacks
  */
 fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: Fragment): Disposable {
     val fragmentManager = fragmentToMonitor.fragmentManager
-            ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, in this case this method must called inside or after onFragmentAttached(). See Fragment.getFragmentManager() method doc")
+            ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, in this case this method must called inside or after onFragmentAttached(). See Fragment.getFragmentManager() method documentation")
 
     fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
