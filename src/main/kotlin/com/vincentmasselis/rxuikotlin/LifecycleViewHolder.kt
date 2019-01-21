@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
 
 /**
- * Similar to [RecyclerView.ViewHolder] with this one adds a optional [onAttach(CompositeDisposable)]. Override this method to create a lifecycle-like behavior.
+ * Similar to [RecyclerView.ViewHolder] but this one adds an optional [onAttach(CompositeDisposable)]. Override this method to create a lifecycle-like behavior.
  */
 abstract class LifecycleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
