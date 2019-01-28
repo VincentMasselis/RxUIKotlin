@@ -7,7 +7,7 @@ Made with love at the [Equisense](http://equisense.com) HQ. This library is used
 🛑 **Work in progress** : Destructive code is often commited on this repo, an alpha release will be released with jitpack when the library will be stable enough.
 
 ## Introduction
-This library is made to manage your subscriptions when fetching data with RxJava2 inside a `Activity`, a `Fragment`, a custom `View` or a `Service`. It cancel your request depending of the state of the lifecycle by disposing your subscription (calling `dispose()` on the `Disposable` object).
+This library is made to manage your subscriptions when fetching data with RxJava2 inside a `Activity`, a `Fragment` or a `ViewHolder`. It cancel your request depending of the state of the lifecycle by disposing your subscription (calling `dispose()` on the `Disposable` object).
 
 Unlike [RxLifecycle](https://github.com/trello/RxLifecycle), this library doesn't transform your observable by emitting `onComplete()` when your view is gone, it just `dispose()` your `Disposable`, that's all. So you can use `Single` or `Completable` in your code without manually handle every `CancellationException`.
 
@@ -37,61 +37,19 @@ It's exactly the same for activities :
 ```kotlin
 disposeOnState(ActivityState.DESTROY, this)
 ```
-custom views :
+
+ViewHolder :
 ```kotlin
-disposeOnState(ViewState.DETACH, this)
+override fun onAttach(detachDisposable: CompositeDisposable) {
+  anObservable
+    .subscribe {
+      //Do your stuff
+    }
+    .addTo(detachDisposable)
+}
 ```
-or services :
-```kotlin
-disposeOnState(ServiceState.DESTROY, this)
-```
+
 That's all !
-
-## Lifecycle for custom views
-
-Unlike `Activity`, `Fragment` or `Service` a view doesn't have any lifecycle, to simulate it, RxUIKotlin use the [View.addOnAttachStateChangeListener()](https://developer.android.com/reference/android/view/View.OnAttachStateChangeListener.html) method to detect when to call `dispose()`. In addition, RxUIKotlin expose the methods `onAttach()` and `onDetach()` that you can override in your custom view.
-
-To correctly create a custom view which can be used in the method `disposeOnState`, implement `RxViewInterface` in your custom view :
-```kotlin
-class MyCustomView : View, RxViewInterface  {
-  //Your stuff
-}
-```
-Override the property view and setup to this
-```kotlin
-class MyCustomView : View, RxViewInterface  {
-  override val view: View get() = this
-  //Your stuff
-}
-```
-Finally call the method `initLifecycle()` in your `init{}` code block before any instruction :
-```kotlin
-class MyCustomView : View, RxViewInterface  {
-  override val view: View get() = this
-  init {
-    initLifecycle()
-    //Your code
-  }
-  //Your stuff
-}
-```
-That's all ! Now your custom view can override the methods `onAttach()` and `onDetach()` and you can use the `disposeOnState(ViewState.DETACH, this)` method :
-```kotlin
-class MyCustomView : View, RxViewInterface  {
-  override val view: View get() = this
-  init {
-    initLifecycle()
-  }
-  
-  override fun onAttach() {
-    anObservable
-      .subscribe {
-        //Update UI
-      }
-      .disposeOnState(ViewState.DETACH, this)
-  }
-}
-```
 
 //TODO 
 
