@@ -21,7 +21,7 @@ It works only with [RxJava2](https://github.com/ReactiveX/RxJava), it's designed
 
 ## Usage
 
-It's pretty simple :
+Inside a Fragment :
 
 ```kotlin
 anObservable
@@ -33,7 +33,7 @@ anObservable
 
 It's exactly the same for activities :
 ```kotlin
-disposeOnState(ActivityState.DESTROY, this)
+.disposeOnState(ActivityState.DESTROY, this)
 ```
 
 ViewHolder :
@@ -43,11 +43,14 @@ override fun onAttach(detachDisposable: CompositeDisposable) {
     .subscribe {
       //Do your stuff
     }
-    .addTo(detachDisposable)
+    .also { detachDisposable.add(it) }
+    //.addTo(detachDisposable) with RxKotlin
 }
 ```
 
 That's all !
+
+Unlike `Fragment` and `Activity`, there is no `disposeOnState` extension method available for a `ViewHolder` subclass due to the recycler view library limitation. To continue, you have to subclass `LifecycleAdapter` instead of `RecyclerView.Adapter` and `LifecycleViewHolder` instead of `RecyclerView.ViewHolder`, then, inside your `ViewHolder`, override the method `onAttach(detachDisposable: CompositeDisposable)` and add every of your `Disposable`s into the filled parameter `detachDisposable`.
 
 ## Repport an issue
 
