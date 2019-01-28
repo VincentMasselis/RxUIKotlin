@@ -1,5 +1,7 @@
 # RxUIKotlin
 
+[ ![Download](https://api.bintray.com/packages/vincentmasselis/maven/rx-ui-kotlin/images/download.svg) ](https://bintray.com/vincentmasselis/maven/rx-ui-kotlin/_latestVersion)
+
 Android UI + Kotlin + RxJava2
 
 Made with love at the [Equisense](http://equisense.com) HQ. This library is used in our [Equisense app](https://play.google.com/store/apps/details?id=com.equisense.motions) since a few years.
