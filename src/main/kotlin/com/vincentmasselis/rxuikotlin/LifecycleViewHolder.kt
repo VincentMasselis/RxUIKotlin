@@ -24,7 +24,7 @@ abstract class LifecycleViewHolder(itemView: View) : RecyclerView.ViewHolder(ite
     }
 
     /**
-     * @return a [CompositeDisposable] is the current [LifecycleViewHolder] is between [onAttach] and [onDetach], returns null otherwise.
+     * @return a [CompositeDisposable] if the current [LifecycleViewHolder] is between [onAttach] and [onDetach], returns null otherwise.
      */
     fun disposable(): CompositeDisposable? = disps
 
