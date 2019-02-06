@@ -4,11 +4,6 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply from: 'keystore.gradle'
 
-ext {
-    groupId = 'com.vincentmasselis.rxuikotlin'
-    artifactId = "rxuikotlin-core"
-    libVersion = "1.0.0"
-}
 version = libVersion
 group = groupId
 // More info here: https://github.com/bintray/gradle-bintray-plugin#buildgradle

@@ -4,6 +4,13 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'maven-publish'
 
+ext {
+    versionCode = 2
+    groupId = 'com.vincentmasselis.rxuikotlin'
+    artifactId = "rxuikotlin-core"
+    libVersion = "1.0.1"
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -11,8 +18,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode versionCode
+        versionName libVersion
     }
     buildTypes {
         ci {}
