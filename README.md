@@ -58,7 +58,17 @@ That's all !
 
 Unlike `Fragment` and `Activity`, there is no `disposeOnState` extension method available for a `ViewHolder` subclass due to the recycler view library limitation. To continue, you have to subclass `LifecycleAdapter` instead of `RecyclerView.Adapter` and `LifecycleViewHolder` instead of `RecyclerView.ViewHolder`, then, inside your `ViewHolder`, override the method `onAttach(detachDisposable: CompositeDisposable)` and add every of your `Disposable`s into the filled parameter `detachDisposable`.
 
-Example with a `RecyclerView`, first I create my custom `ViewHolder`
+To automatically dispose your `ViewHolder`s, put the adapter into the recycler view by calling `subscribe`:
+```kotlin
+myRecyclerView.subscribe(MyAdapter()).disposeOnState(ActivityState.DESTROY, this)
+```
+The method `subscribe` require an adapter which subclass `LifecycleAdapter`. For example:
+```kotlin
+class MyAdapter : LifecycleAdapter<MyViewHolder> {
+ // Put your code here just like you do with RecycleView.Adapter
+}
+```
+finally, you can create your own custom `ViewHolder`
 ```kotlin
 class MyViewHolder(itemView: View) : LifecycleViewHolder(itemView) {
   override fun onAttach(detachDisposable: CompositeDisposable) {
@@ -67,14 +77,8 @@ class MyViewHolder(itemView: View) : LifecycleViewHolder(itemView) {
   }
 }
 ```
-and then subclass your adapter with `LifecycleAdapter`
-```kotlin
-class MyAdapter : LifecycleAdapter<MyViewHolder> {
- // Put your code here just like you do with RecycleView.Adapter
-}
-```
 
-By subclassing `LifecycleViewHolder` and `LifecycleAdapter`, `MyViewHolder` will have a lifecyle-like behavior and the methods `onAttach` and `onDetach` will be called automatically by `MyAdapter`.
+By subclassing `LifecycleViewHolder` and `LifecycleAdapter`, `MyViewHolder` will have a lifecyle-like behavior and the methods `onAttach` and `onDetach` from `MyViewHolder` will be called automatically.
 
 ## Repport an issue
 
