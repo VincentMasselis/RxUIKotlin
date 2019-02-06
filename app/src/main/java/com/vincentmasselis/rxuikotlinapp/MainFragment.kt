@@ -17,18 +17,18 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createDisposable = currentSituation.subscribe().disposeOnState(FragmentState.DESTROY, this)
+        createDisposable = currentSituation!!.subscribe().disposeOnState(FragmentState.DESTROY, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_main, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewCreatedDisposable = currentSituation.subscribe().disposeOnState(FragmentState.DESTROY_VIEW, this)
+        viewCreatedDisposable = currentSituation!!.subscribe().disposeOnState(FragmentState.DESTROY_VIEW, this)
     }
 
     override fun onResume() {
         super.onResume()
-        resumeDisposable = currentSituation.subscribe().disposeOnState(FragmentState.PAUSE, this)
+        resumeDisposable = currentSituation!!.subscribe().disposeOnState(FragmentState.PAUSE, this)
     }
 }

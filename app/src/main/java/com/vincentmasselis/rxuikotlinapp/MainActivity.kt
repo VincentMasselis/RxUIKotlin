@@ -14,11 +14,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        createDisposable = currentSituation.subscribe().disposeOnState(ActivityState.DESTROY, this)
+        createDisposable = currentSituation!!.subscribe().disposeOnState(ActivityState.DESTROY, this)
     }
 
     override fun onResume() {
         super.onResume()
-        resumeDisposable = currentSituation.subscribe().disposeOnState(ActivityState.PAUSE, this)
+        resumeDisposable = currentSituation!!.subscribe().disposeOnState(ActivityState.PAUSE, this)
     }
 }

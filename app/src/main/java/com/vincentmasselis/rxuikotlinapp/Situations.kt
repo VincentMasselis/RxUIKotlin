@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
-lateinit var currentSituation: Situations
+var currentSituation: Situations? = null
 
 sealed class Situations {
     sealed class Singles(val single: Single<Long>) : Situations() {

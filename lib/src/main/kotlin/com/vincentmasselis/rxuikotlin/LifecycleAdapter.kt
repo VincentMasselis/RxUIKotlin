@@ -8,6 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
  */
 abstract class LifecycleAdapter<T : LifecycleViewHolder> : RecyclerView.Adapter<T>() {
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        if (recyclerView.getTag(protectedId) == null) throw IllegalStateException("Current adapter $this must be set to the recyclerView $recyclerView by calling RecyclerView.subscribe() instead of RecyclerView.setAdapter()")
+
+        super.onAttachedToRecyclerView(recyclerView)
+    }
+
     override fun onViewAttachedToWindow(holder: T) {
         super.onViewAttachedToWindow(holder)
         holder.onAttach()
