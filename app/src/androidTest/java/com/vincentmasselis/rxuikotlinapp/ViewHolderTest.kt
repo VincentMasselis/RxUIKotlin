@@ -24,4 +24,16 @@ class ViewHolderTest {
         Thread.sleep(500)
         vhs.forEach { it.disposable()?.checkDisposed() }
     }
+
+    @Test
+    fun scroll() {
+        val activity = adapterActivityRule.launchActivity(null)
+        val vhs = activity.adapter.viewHolders.toList()
+        vhs.forEach { it.disposable()!!.checkNotDisposed() }
+        Thread.sleep(500)
+        activity.runOnUiThread { activity.recyclerView.scrollToPosition(49) }
+        Thread.sleep(500)
+        vhs.forEach { it.disposable()?.checkDisposed() }
+        adapterActivityRule.finishActivity()
+    }
 }

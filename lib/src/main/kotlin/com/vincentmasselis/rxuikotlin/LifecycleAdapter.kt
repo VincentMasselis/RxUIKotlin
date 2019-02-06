@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class LifecycleAdapter<T : LifecycleViewHolder> : RecyclerView.Adapter<T>() {
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        if (recyclerView.getTag(protectedId) == null) throw IllegalStateException("Current adapter $this must be set to the recyclerView $recyclerView by calling RecyclerView.subscribe() instead of RecyclerView.setAdapter()")
+        if (recyclerView.getTag(R.integer.adapter_recycler_view_tag) == null) throw IllegalStateException("Current adapter $this must be set to the recyclerView $recyclerView by calling RecyclerView.subscribe() instead of RecyclerView.setAdapter()")
 
         super.onAttachedToRecyclerView(recyclerView)
     }
