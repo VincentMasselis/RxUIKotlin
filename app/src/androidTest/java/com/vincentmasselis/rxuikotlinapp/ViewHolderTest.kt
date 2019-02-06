@@ -28,12 +28,12 @@ class ViewHolderTest {
     @Test
     fun scroll() {
         val activity = adapterActivityRule.launchActivity(null)
-        val vhs = activity.adapter.viewHolders.toList()
+        val vhs = activity.adapter.viewHolders.toMutableList()
         vhs.forEach { it.disposable()!!.checkNotDisposed() }
         Thread.sleep(500)
-        activity.runOnUiThread { activity.recyclerView.scrollToPosition(49) }
-        Thread.sleep(500)
-        vhs.forEach { it.disposable()?.checkDisposed() }
+        activity.runOnUiThread { activity.recyclerView.smoothScrollToPosition(49) }
+        Thread.sleep(1500)
+        vhs.filter { it.adapterPosition < vhs.size }.forEach { it.disposable()?.checkDisposed() }
         adapterActivityRule.finishActivity()
     }
 }
