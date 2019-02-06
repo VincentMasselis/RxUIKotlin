@@ -52,6 +52,7 @@ class ActivityTest {
             activity.createDisposable.checkNotDisposed()
             activity.resumeDisposable.checkNotDisposed()
             mainActivityRule.finishActivity()
+            Thread.sleep(500)
             activity.createDisposable.checkDisposed()
             activity.resumeDisposable.checkDisposed()
         }
@@ -69,6 +70,7 @@ class ActivityTest {
             activity.createDisposable.checkNotDisposed()
             activity.resumeDisposable.checkNotDisposed()
             mainActivityRule.finishActivity()
+            Thread.sleep(500)
             activity.createDisposable.checkDisposed()
             activity.resumeDisposable.checkDisposed()
         }
