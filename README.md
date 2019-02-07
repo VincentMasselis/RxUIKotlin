@@ -1,6 +1,7 @@
 # RxUIKotlin
 
-[ ![Download](https://api.bintray.com/packages/vincentmasselis/maven/rx-ui-kotlin/images/download.svg) ](https://bintray.com/vincentmasselis/maven/rx-ui-kotlin/_latestVersion)
+[![Download](https://api.bintray.com/packages/vincentmasselis/maven/rx-ui-kotlin/images/download.svg) ](https://bintray.com/vincentmasselis/maven/rx-ui-kotlin/_latestVersion)
+[![Build Status](https://app.bitrise.io/app/543a61215e5d2cea/status.svg?token=hG0jM55xlaT9IvOgJcyCJA&branch=master)](https://app.bitrise.io/app/543a61215e5d2cea)
 
 Android UI + Kotlin + RxJava2
 
