@@ -2,14 +2,13 @@
 
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
-apply from: 'keystore.gradle'
 
 version = libVersion
 group = groupId
 // More info here: https://github.com/bintray/gradle-bintray-plugin#buildgradle
 bintray {
     user = 'vincentmasselis'
-    key = bintray_key // Defined in keystore.gradle file
+    key = "$System.env.bintray_key" // Defined in keystore.gradle file
     configurations = ['archives']
     publish = true //[Default: false] Whether version should be auto published after an upload
     override = false //[Default: false] Whether to override version artifacts already published
