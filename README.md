@@ -87,6 +87,4 @@ https://github.com/VincentMasselis/RxUIKotlin/issues
 
 ## TODO
 
-- Tests, tests, tests !
-
 - Example app
