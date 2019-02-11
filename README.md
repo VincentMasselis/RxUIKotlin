@@ -22,7 +22,7 @@ It works only with [RxJava2](https://github.com/ReactiveX/RxJava), it's designed
 
 ## Installation
 
-`implementation 'com.vincentmasselis.rxuikotlin:rxuikotlin-core:1.0.0'`
+`implementation 'com.vincentmasselis.rxuikotlin:rxuikotlin-core:1.0.1'`
 
 ## Usage
 
