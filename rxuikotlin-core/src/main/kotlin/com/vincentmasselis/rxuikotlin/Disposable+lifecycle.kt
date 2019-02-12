@@ -58,7 +58,7 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
  */
 fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: Fragment): Disposable {
     val fragmentManager = fragmentToMonitor.fragmentManager
-            ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, in this case this method must called inside or after onFragmentAttached(). See Fragment.getFragmentManager() method documentation")
+            ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, disposeOnState method must called, at least, inside or after onCreate(Bundle?). See Fragment.getFragmentManager() method documentation")
 
     fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
