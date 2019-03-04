@@ -4,6 +4,7 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 import java.util.concurrent.TimeUnit
 
 var currentSituation: Situations? = null
@@ -34,6 +35,13 @@ sealed class Situations {
         is Situations.Singles -> situation.single.subscribe()
         is Situations.Maybes -> situation.maybe.subscribe()
         is Situations.Observables -> situation.observable.subscribe()
+        else -> throw IllegalArgumentException("Cannot handle this situation $situation")
+    }
+
+    fun subscribe(consumer: Consumer<Unit>) = when (val situation = currentSituation) {
+        is Situations.Singles -> situation.single.map { Unit }.subscribe(consumer)
+        is Situations.Maybes -> situation.maybe.map { Unit }.subscribe(consumer)
+        is Situations.Observables -> situation.observable.map { Unit }.subscribe(consumer)
         else -> throw IllegalArgumentException("Cannot handle this situation $situation")
     }
 }
