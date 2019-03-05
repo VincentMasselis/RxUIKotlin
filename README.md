@@ -12,6 +12,8 @@ This library is made to manage your subscriptions when fetching data with RxJava
 
 RxUIKotlin is lightweight, the .aar file weights less than 50kb and it only require a few dependencies: `appcompat`, `recyclerview`, `rxjava` and `rxandroid`. RxUIKotlin will never change the behavior of your chaning, it only dipose it when you want to.
 
+RxUIKotlin is splitted into 2 separates artifacts, the `core`, which is explained here, and the [fragmentmanager](https://github.com/VincentMasselis/RxUIKotlin/tree/master/rxuikotlin-fragmentmanager). `fragmentmanager` helps you to listen fragment events, adding or removing from a `FragmentManager`. You can use `fragmentmanager` without `core`, both are independent.
+
 Unlike [RxLifecycle](https://github.com/trello/RxLifecycle), this library doesn't transform your observable by emitting `onComplete()` when your view is gone, it just `dispose()` your `Disposable`, that's all. So you can use `Single` or `Completable` in your code without manually handle every `CancellationException`.
 
 Unlike [android-disposebag](https://github.com/kizitonwose/android-disposebag), this library doesn't use [Android Architecture](https://developer.android.com/topic/libraries/architecture/index.html) to listen the lifecycle because the class [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle.html) from [Android Architecture](https://developer.android.com/topic/libraries/architecture/index.html) doesn't emit states `PRE_ATTACH`, `ATTACH`, `ACTIVITY_CREATED`, `VIEW_CREATED`, `DESTROY_VIEW`, `SAVE_INSTANCE_STATE`, `DESTROY_VIEW` and `DETACH` while RxUIKotlin does.
