@@ -4,6 +4,10 @@
 
 Our examples uses an `Activity`, you can replace this by a `Fragment`, it works the same way.
 
+### Download
+
+`implementation 'com.vincentmasselis.rxuikotlin:rxuikotlin-fragmentmanager:$rx_ui_kotlin_version'`
+
 ### FragmentManager.rxFragmentsLifecycle()
 ```kotlin
 class MyActivity : AppCompatActivity() {
