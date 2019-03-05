@@ -37,5 +37,5 @@ task clean(type: Delete) {
 ext {
     versionCode = 2
     groupId = 'com.vincentmasselis.rxuikotlin'
-    libVersion = "1.0.1"
+    libVersion = "1.1.0"
 }
