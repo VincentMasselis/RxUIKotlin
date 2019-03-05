@@ -32,3 +32,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+ext {
+    versionCode = 2
+    groupId = 'com.vincentmasselis.rxuikotlin'
+    libVersion = "1.0.1"
+}

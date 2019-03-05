@@ -1,1 +1,1 @@
-include ':app', ':rxuikotlin-core'
+include ':app', ':rxuikotlin-core', ':rxuikotlin-fragmentmanager'

@@ -1,4 +1,4 @@
-package com.vincentmasselis.rxuikotlin
+package com.vincentmasselis.rxuikotlin.fragmentmanager
 
 import android.content.Context
 import android.os.Bundle

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.vincentmasselis.rxuikotlin.disposeOnState
-import com.vincentmasselis.rxuikotlin.rxFragments
+import com.vincentmasselis.rxuikotlin.fragmentmanager.rxFragments
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject

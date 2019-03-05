@@ -2,7 +2,7 @@ package com.vincentmasselis.rxuikotlinapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
-import com.vincentmasselis.rxuikotlin.rxFragmentsLifecycle
+import com.vincentmasselis.rxuikotlin.fragmentmanager.rxFragmentsLifecycle
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.Completable
 import io.reactivex.subjects.PublishSubject
