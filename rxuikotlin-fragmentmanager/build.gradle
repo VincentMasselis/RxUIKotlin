@@ -15,7 +15,6 @@ android {
         versionName libVersion
     }
     buildTypes {
-        ci {}
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
