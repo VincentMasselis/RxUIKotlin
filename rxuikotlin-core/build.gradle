@@ -15,7 +15,6 @@ android {
         versionName libVersion
     }
     buildTypes {
-        ci {}
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -31,7 +30,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.8"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 }
 
