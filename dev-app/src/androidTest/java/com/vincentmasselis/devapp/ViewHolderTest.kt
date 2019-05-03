@@ -46,10 +46,8 @@ class ViewHolderTest {
             // Some of the VHs are recycled, that mean the disposable is not disposed at this moment. I'm looking for VHs which are created but not recycled yet and verify that
             // they are correctly disposed. To do this, I only selected the VHs with a low position index.
             .filter { it.adapterPosition < viewHolders.size }
-            .forEach {
-                it.windowDisp!!.checkDisposed()
-                it.adapterDisp!!.checkNotDisposed()
-            }
+            .forEach { it.windowDisp!!.checkDisposed() }
+        viewHolders.forEach { it.adapterDisp!!.checkNotDisposed() }
         adapterActivityRule.finishActivity()
         Thread.sleep(2000)
         viewHolders.forEach {
