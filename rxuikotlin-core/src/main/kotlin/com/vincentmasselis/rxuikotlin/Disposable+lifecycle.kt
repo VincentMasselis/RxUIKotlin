@@ -10,13 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
+import com.vincentmasselis.rxuikotlin.utils.ViewHolderState
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 
 /**
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the [activityToMonitor]
  *
  * Be careful while setting up a value to [exceptedState]. As long as the state is not reached, the code listen to the lifecycle even if the [activityToMonitor] is
- * [ActivityState.DESTROY], this state can lead to memory leaks.
+ * [ActivityState.DESTROY], this kind of error leads to memory leaks.
  *
  * @see FragmentManager.registerFragmentLifecycleCallbacks
  */
@@ -52,13 +54,13 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the [fragmentToMonitor]
  *
  * Be careful while setting up a value to [exceptedState]. As long as the state is not reached, the code listen to the lifecycle even if the [fragmentToMonitor] is
- * [FragmentState.DETACH], this state can lead to memory leaks.
+ * [FragmentState.DETACH], this kind of error leads to memory leaks.
  *
  * @see FragmentManager.registerFragmentLifecycleCallbacks
  */
 fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: Fragment): Disposable {
     val fragmentManager = fragmentToMonitor.fragmentManager
-            ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, disposeOnState method must called, at least, inside or after onCreate(Bundle?). See Fragment.getFragmentManager() method documentation")
+        ?: throw IllegalStateException("disposeOnState is called too early for the fragment $fragmentToMonitor, disposeOnState method must called, at least, inside or after onCreate(Bundle?). See Fragment.getFragmentManager() method documentation")
 
     fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
 
@@ -100,5 +102,24 @@ fun Disposable.disposeOnState(exceptedState: FragmentState, fragmentToMonitor: F
 
         override fun onFragmentDetached(fm: FragmentManager, f: Fragment) = disposeAndUnregisterIfRequired(FragmentState.DETACH, fm, f)
     }, false)
+    return this
+}
+
+/**
+ * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the [viewHolderToMonitor]
+ *
+ * Be careful while setting up a value to [exceptedState]. As long as the state is not reached, the code listen to the lifecycle even if the [viewHolderToMonitor] is destroyed,
+ * this kind of error leads to memory leaks.
+ *
+ * @see FragmentManager.registerFragmentLifecycleCallbacks
+ */
+fun Disposable.disposeOnState(exceptedState: ViewHolderState, viewHolderToMonitor: LifecycleViewHolder): Disposable {
+    @Suppress("UNUSED_VARIABLE") val ignoreMe = when (exceptedState) {
+        ViewHolderState.WINDOW_ATTACH -> viewHolderToMonitor.windowAttaches().filter { it }
+        ViewHolderState.WINDOW_DETACH -> viewHolderToMonitor.windowAttaches().filter { it.not() }
+        ViewHolderState.ADAPTER_ATTACH -> viewHolderToMonitor.adapterAttaches().filter { it }
+        ViewHolderState.ADAPTER_DETACH -> viewHolderToMonitor.adapterAttaches().filter { it.not() }
+    }.firstOrError()
+        .subscribe(Consumer { dispose() })
     return this
 }

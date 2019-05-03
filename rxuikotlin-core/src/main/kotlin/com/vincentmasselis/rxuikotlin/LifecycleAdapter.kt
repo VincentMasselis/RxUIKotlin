@@ -14,13 +14,25 @@ abstract class LifecycleAdapter<T : LifecycleViewHolder> : RecyclerView.Adapter<
         super.onAttachedToRecyclerView(recyclerView)
     }
 
+    private val adapterAttachedList = mutableListOf<T>()
+
     override fun onViewAttachedToWindow(holder: T) {
         super.onViewAttachedToWindow(holder)
-        holder.onAttach()
+        if (holder.isAttachAsked.compareAndSet(false, true)) {
+            holder.onAdapterAttach()
+            adapterAttachedList += holder
+        }
+        holder.onWindowAttach()
     }
 
     override fun onViewDetachedFromWindow(holder: T) {
-        holder.onDetach()
+        holder.onWindowDetach()
         super.onViewDetachedFromWindow(holder)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        adapterAttachedList.forEach { it.onAdapterDetach() }
+        adapterAttachedList.clear()
+        super.onDetachedFromRecyclerView(recyclerView)
     }
 }
