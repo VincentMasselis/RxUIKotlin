@@ -1,4 +1,4 @@
-package com.vincentmasselis.rxuikotlinapp
+package com.vincentmasselis.devapp
 
 import android.os.Bundle
 import android.view.LayoutInflater

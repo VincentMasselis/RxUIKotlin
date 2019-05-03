@@ -1,4 +1,4 @@
-package com.vincentmasselis.rxuikotlinapp
+package com.vincentmasselis.devapp
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
@@ -28,12 +28,16 @@ class ViewHolderTest {
     @Test
     fun scroll() {
         val activity = adapterActivityRule.launchActivity(null)
-        val vhs = activity.adapter.viewHolders.toMutableList()
-        vhs.forEach { it.disposable()!!.checkNotDisposed() }
+        val viewHolders = activity.adapter.viewHolders.toList() // Create a list of the original viewHolders
+        viewHolders.forEach { it.disposable()!!.checkNotDisposed() }
         Thread.sleep(500)
         activity.runOnUiThread { activity.recyclerView.smoothScrollToPosition(49) }
         Thread.sleep(1500)
-        vhs.filter { it.adapterPosition < vhs.size }.forEach { it.disposable()?.checkDisposed() }
+        viewHolders
+            // Some of the VHs are recycled, that mean the disposable is not disposed at this moment. I'm looking for VHs which are created but not recycled yet and verify that
+            // they are correctly disposed. To do this, I only selected the VHs with a low position index.
+            .filter { it.adapterPosition < viewHolders.size }
+            .forEach { it.disposable()?.checkDisposed() }
         adapterActivityRule.finishActivity()
     }
 }

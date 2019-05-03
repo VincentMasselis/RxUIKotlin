@@ -1,4 +1,4 @@
-package com.vincentmasselis.rxuikotlinapp
+package com.vincentmasselis.devapp
 
 import android.view.View
 import com.vincentmasselis.rxuikotlin.LifecycleViewHolder
