@@ -76,7 +76,7 @@ override fun onAdapterAttach() {
 }
 ```
 
-The only restraint of using `LifecycleAdapter` is the obligation to call `subscribe` like this:
+The only restraint of using `LifecycleAdapter` is the obligation to call `subscribe`:
 ```kotlin
 myRecyclerView.subscribe(MyAdapter()).disposeOnState(ActivityState.DESTROY, this)
 ```
