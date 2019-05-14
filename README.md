@@ -45,13 +45,13 @@ It's exactly the same for activities :
 
 ViewHolder :
 ```kotlin
-override fun onAttach(detachDisposable: CompositeDisposable) {
+override fun onAdapterAttach() {
+  super.onAdapterAttach()
   anObservable
     .subscribe {
       //Do your stuff
     }
-    .also { detachDisposable.add(it) }
-    //.addTo(detachDisposable) with RxKotlin
+    .disposeOnState(ViewHolderState.ADAPTER_DETACH, this)
 }
 ```
 
@@ -59,29 +59,25 @@ That's all !
 
 ## RecyclerView and ViewHolder
 
-Unlike `Fragment` and `Activity`, there is no `disposeOnState` extension method available for a `ViewHolder` subclass due to the recycler view library limitation. To continue, you have to subclass `LifecycleAdapter` instead of `RecyclerView.Adapter` and `LifecycleViewHolder` instead of `RecyclerView.ViewHolder`, then, inside your `ViewHolder`, override the method `onAttach(detachDisposable: CompositeDisposable)` and add every of your `Disposable`s into the filled parameter `detachDisposable`.
+Unlike `Fragment` and `Activity`, a `RecyclerView.ViewHolder` doesn't have explicit methods which represents a lifecyle, but, under the hood, there is a way to create a lifecycle-like behavior by using the modified version of `RecyclerView.Adapter` named `LifecycleAdapter` and the modified `RecyclerView.ViewHolder` named `LifecycleViewHolder`.
 
-To automatically dispose your `ViewHolder`s, put the adapter into the recycler view by calling `subscribe`:
+`LifecycleAdapter` creates 2 lifecycles "Window Attach-Detach" and "Adapter Attach-Detach". First calls `LifecycleViewHolder.onWindowAttach` and `LifecycleViewHolder.onWindowDetach` methods when the `ViewHolder` is dettached from the window and attached again a few moments before `onBindViewHolder` is called. Second calls `LifecycleViewHolder.onAdapterAttach` and `LifecycleViewHolder.onAdapterDetach` when the `LifecycleAdapter` is added or removed from the `RecyclerView`. So, to continue, you have to subclass `LifecycleAdapter` instead of `RecyclerView.Adapter` and `LifecycleViewHolder` instead of `RecyclerView.ViewHolder`, then, inside your `ViewHolder`, you can now override theses 4 methods `onWindowAttach`, `onWindowDetach`, `onAdapterAttach` and `onAdapterDetach` to create you own lifecycle behavior just like you do with a `Fragment` or an `Activity`.
+
+```kotlin
+override fun onAdapterAttach() {
+  super.onAdapterAttach()
+  anObservable
+    .subscribe {
+      //Do your stuff
+    }
+    .disposeOnState(ViewHolderState.ADAPTER_DETACH, this)
+}
+```
+
+The only restraint of using `LifecycleAdapter` is the obligation to call `subscribe` like this:
 ```kotlin
 myRecyclerView.subscribe(MyAdapter()).disposeOnState(ActivityState.DESTROY, this)
 ```
-The method `subscribe` require an adapter which subclass `LifecycleAdapter`. For example:
-```kotlin
-class MyAdapter : LifecycleAdapter<MyViewHolder> {
- // Put your code here just like you do with RecycleView.Adapter
-}
-```
-finally, you can create your own custom `ViewHolder`
-```kotlin
-class MyViewHolder(itemView: View) : LifecycleViewHolder(itemView) {
-  override fun onAttach(detachDisposable: CompositeDisposable) {
-    // Create your chains here and put every of your disposable into detachDisposable.
-    // LifecycleViewHolder will automatically dispose your disposables by calling detachDisposable.dispose() when onDetach is called
-  }
-}
-```
-
-By subclassing `LifecycleViewHolder` and `LifecycleAdapter`, `MyViewHolder` will have a lifecyle-like behavior and the methods `onAttach` and `onDetach` from `MyViewHolder` will be called automatically.
 
 ## Repport an issue
 
