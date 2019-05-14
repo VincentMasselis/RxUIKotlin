@@ -61,7 +61,9 @@ That's all !
 
 Unlike `Fragment` and `Activity`, a `RecyclerView.ViewHolder` doesn't have explicit methods which represents a lifecyle, but, under the hood, there is a way to create a lifecycle-like behavior by using the modified version of `RecyclerView.Adapter` named `LifecycleAdapter` and the modified `RecyclerView.ViewHolder` named `LifecycleViewHolder`.
 
-`LifecycleAdapter` creates 2 lifecycles "Window Attach-Detach" and "Adapter Attach-Detach". First calls `LifecycleViewHolder.onWindowAttach` and `LifecycleViewHolder.onWindowDetach` methods when the `ViewHolder` is dettached from the window and attached again a few moments before `onBindViewHolder` is called. Second calls `LifecycleViewHolder.onAdapterAttach` and `LifecycleViewHolder.onAdapterDetach` when the `LifecycleAdapter` is added or removed from the `RecyclerView`. So, to continue, you have to subclass `LifecycleAdapter` instead of `RecyclerView.Adapter` and `LifecycleViewHolder` instead of `RecyclerView.ViewHolder`, then, inside your `ViewHolder`, you can now override theses 4 methods `onWindowAttach`, `onWindowDetach`, `onAdapterAttach` and `onAdapterDetach` to create you own lifecycle behavior just like you do with a `Fragment` or an `Activity`.
+`LifecycleAdapter` creates 2 lifecycles "Window Attach-Detach" and "Adapter Attach-Detach". First calls `LifecycleViewHolder.onWindowAttach` and `LifecycleViewHolder.onWindowDetach` methods when the `ViewHolder` is dettached from the window and attached again a few moments before `onBindViewHolder` is called. Second calls `LifecycleViewHolder.onAdapterAttach` and `LifecycleViewHolder.onAdapterDetach` when the `LifecycleAdapter` is added or removed from the `RecyclerView`.
+
+To use theses methods, you have to subclass `LifecycleAdapter` instead of `RecyclerView.Adapter` and `LifecycleViewHolder` instead of `RecyclerView.ViewHolder`, then, inside your `ViewHolder`, you can now override theses 4 methods `onWindowAttach`, `onWindowDetach`, `onAdapterAttach` and `onAdapterDetach` to create you own lifecycle behavior just like you do with a `Fragment` or an `Activity`.
 
 ```kotlin
 override fun onAdapterAttach() {
