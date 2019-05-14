@@ -45,14 +45,11 @@ It's exactly the same for activities :
 
 ViewHolder :
 ```kotlin
-override fun onAdapterAttach() {
-  super.onAdapterAttach()
-  anObservable
-    .subscribe {
-      //Do your stuff
-    }
-    .disposeOnState(ViewHolderState.ADAPTER_DETACH, this)
-}
+anObservable
+  .subscribe {
+    //Do your stuff
+  }
+  .disposeOnState(ViewHolderState.ADAPTER_DETACH, this)
 ```
 
 That's all !
