@@ -28,7 +28,7 @@ It works only with [RxJava2](https://github.com/ReactiveX/RxJava), it's designed
 
 ## Usage
 
-Inside a Fragment :
+Inside a Fragment:
 
 ```kotlin
 anObservable
@@ -38,17 +38,13 @@ anObservable
   .disposeOnState(FragmentState.DESTROY_VIEW, this)
 ```
 
-It's exactly the same for activities :
+It's exactly the same for activities:
 ```kotlin
-.disposeOnState(ActivityState.DESTROY, this)
+  .disposeOnState(ActivityState.DESTROY, this)
 ```
 
-ViewHolder :
+and the view holders after you have overriden `LifecycleAdapter` and `LifecycleViewHolder`:
 ```kotlin
-anObservable
-  .subscribe {
-    //Do your stuff
-  }
   .disposeOnState(ViewHolderState.ADAPTER_DETACH, this)
 ```
 
