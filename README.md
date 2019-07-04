@@ -24,7 +24,7 @@ It works only with [RxJava2](https://github.com/ReactiveX/RxJava), it's designed
 
 ## Installation
 
-`implementation "com.vincentmasselis.rxuikotlin:rxuikotlin-core:$rx_ui_kotlin_version"`
+`implementation "com.vincentmasselis.rxuikotlin:rxuikotlin-core:1.2.0"`
 
 ## Usage
 
