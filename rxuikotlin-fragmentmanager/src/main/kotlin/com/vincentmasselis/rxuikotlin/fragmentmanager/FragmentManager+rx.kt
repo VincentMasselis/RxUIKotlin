@@ -51,30 +51,35 @@ fun FragmentManager.rxFragmentsLifecycle(recursive: Boolean): Observable<Pair<Fr
     downStream.setCancellable { unregisterFragmentLifecycleCallbacks(callbacks) }
 }
 
+@CheckReturnValue
+@Deprecated("This methods causes bugs when combining orientations changes and addToBackStack()", ReplaceWith("rxFragmentList()"))
+fun FragmentManager.rxFragments(): Observable<Set<Fragment>> = rxFragmentList().map { it.toSet() }
+
 /**
- * Emits [onNext] every time a [List] of [Fragment] is attached or detached to the current [FragmentManager]. It never fails and it never completes.
+ * Emits [onNext] with a [List] of [Fragment]s every time a fragment is added or removed from the current [FragmentManager]. It never fails and it never completes.
  *
  * Emit at sub.
- *
- * NOTE: Unlike the [FragmentManager.getFragments] method which returns a [List], this method returns a [Set] because the [FragmentManager] prevents the user from adding twice the
- * same [Fragment] instance. By considering this, returning a [Set] is a better option.
  *
  * @see FragmentManager.getFragments
  */
 @CheckReturnValue
-fun FragmentManager.rxFragments(): Observable<Set<Fragment>> = rxFragmentsLifecycle(false)
-    .filter { it.first == FragmentState.ATTACH || it.first == FragmentState.DETACH }
-    .compose { source ->
-        val fragments = fragments.toMutableSet()
-        source
-            .map { (state, fragment) ->
-                when (state) {
-                    FragmentState.ATTACH -> fragments += fragment
-                    FragmentState.DETACH -> fragments -= fragment
-                    else -> throw IllegalStateException("Cannot handle the state $state")
-                }
-                fragments
-            }
-            .startWith(fragments)
-            .map { it.toSet() }
-    }
+fun FragmentManager.rxFragmentList(): Observable<List<Fragment>> = Observable
+    .mergeArray(
+        rxFragmentsLifecycle(false)
+            .filter { (state) -> state == FragmentState.ATTACH || state == FragmentState.DETACH }
+            .map { fragments },
+        rxBackStackChanged()
+            .map { fragments }
+    )
+    .startWith(Observable.fromCallable { fragments })
+    .distinctUntilChanged()
+
+
+/** Emits [onNext] with [Unit] every time the back stack is updated */
+@CheckReturnValue
+fun FragmentManager.rxBackStackChanged() = Observable.create<Unit> { downStream ->
+    val callback = FragmentManager.OnBackStackChangedListener { downStream.onNext(Unit) }
+    addOnBackStackChangedListener(callback)
+    downStream.setCancellable { removeOnBackStackChangedListener(callback) }
+}
+
