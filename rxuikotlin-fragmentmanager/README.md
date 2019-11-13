@@ -1,6 +1,6 @@
 ## FragmentManager
 
-`rxFragmentsLifecycle` and `rxFragments` extension to listen fragment updates for a `FragmentManager`.
+`rxFragmentsLifecycle` and `rxFragmentList` extension to listen fragment updates for a `FragmentManager`.
 
 Our examples uses an `Activity`, you can replace this by a `Fragment`, it works the same way.
 
