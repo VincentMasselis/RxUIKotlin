@@ -24,16 +24,16 @@ class MyActivity : AppCompatActivity() {
 }
 ```
 
-### FragmentManager.rxFragments()
+### FragmentManager.rxFragmentList()
 ```kotlin
 class MyActivity : AppCompatActivity() {
   // Your code here
   fun onCreate() {
     // Your code here
-    supportFragmentManager.rxFragments()
+    supportFragmentManager.rxFragmentList()
       .subscribe { fragments ->
-        // Every next emission will fire Set<Fragment>
-        // By using this Set, you can remotly listen to the fragments adding or removing for the specified supportFragmentManager
+        // Every next emission will fire `List<Fragment>`
+        // By using this List, you can remotly listen to the fragments adding or removing for the specified supportFragmentManager
       }
       .disposeOnState(ActivityState.DESTROY, this)
   }
