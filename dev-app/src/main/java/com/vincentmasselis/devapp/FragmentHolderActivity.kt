@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.vincentmasselis.rxuikotlin.disposeOnState
-import com.vincentmasselis.rxuikotlin.fragmentmanager.rxFragments
+import com.vincentmasselis.rxuikotlin.fragmentmanager.rxFragmentList
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
@@ -13,22 +13,22 @@ import io.reactivex.subjects.PublishSubject
 @SuppressLint("CheckResult")
 class FragmentHolderActivity : AppCompatActivity() {
 
-    var fragmentsFromRx = setOf<Fragment>()
+    var fragmentsFromRx = listOf<Fragment>()
         set(value) {
             field = value
             fragmentsFromRxSubject.onNext(value)
         }
 
-    val fragmentsFromRxSubject = PublishSubject.create<Set<Fragment>>()
+    val fragmentsFromRxSubject = PublishSubject.create<List<Fragment>>()
 
-    val fragment1 by lazy { BlankFragment() }
-    val fragment2 by lazy { BlankFragment() }
-    val fragment3 by lazy { BlankFragment() }
+    val fragment1 by lazy { BlankFragment.builder("fragment1") }
+    val fragment2 by lazy { BlankFragment.builder("fragment2") }
+    val fragment3 by lazy { BlankFragment.builder("fragment3") }
 
     val fragments by lazy { listOf(fragment1, fragment2, fragment3) }
 
     init {
-        supportFragmentManager.rxFragments()
+        supportFragmentManager.rxFragmentList()
             .subscribe { fragmentsFromRx = it }
     }
 

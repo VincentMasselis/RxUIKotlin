@@ -20,6 +20,7 @@
         <activity android:name=".PlaceholderActivity" />
         <activity android:name=".AdapterActivity" />
         <activity android:name=".FragmentHolderActivity" />
+        <activity android:name=".CreateAndDestroyFragmentActivity" />
     </application>
 
 </manifest>
