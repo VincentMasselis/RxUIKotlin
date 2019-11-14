@@ -1,6 +1,7 @@
 package com.vincentmasselis.devapp
 
 import android.content.pm.ActivityInfo
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.enableFragmentManagerDebugLogs
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
@@ -18,6 +19,8 @@ class FragmentBehaviorTest {
         enableFragmentManagerDebugLogs()
     }
 
+    private fun FragmentActivity.fragmentCount() = supportFragmentManager.fragments.size
+
     @get:Rule
     val activityRule = ActivityTestRule(CreateAndDestroyFragmentActivity::class.java, true, false)
 
@@ -25,9 +28,11 @@ class FragmentBehaviorTest {
     fun createAndDestroy() {
         val activity = activityRule.launchActivity(null)
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         val fragment1 = activity.fragment1
         activity.finish()
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         activity.events
             .test()
             .assertValues(
@@ -54,12 +59,15 @@ class FragmentBehaviorTest {
     fun createAndDestroyPlusBackStack() {
         val activity = activityRule.launchActivity(null)
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         val fragment1 = activity.fragment1
         activity.putIntoBackStackFragment2()
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         val fragment2 = activity.fragment2
         activity.finish()
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         activity.events
             .test()
             .assertValues(
@@ -104,14 +112,18 @@ class FragmentBehaviorTest {
     fun createAndDestroyPlusBackStackPlusPop() {
         val activity = activityRule.launchActivity(null)
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         val fragment1 = activity.fragment1
         activity.putIntoBackStackFragment2()
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         val fragment2 = activity.fragment2
         activity.runOnUiThread { activity.popBackStack() }
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         activity.finish()
         Thread.sleep(1000)
+        check(activity.fragmentCount() == 1)
         activity.events
             .test()
             .assertValues(
@@ -165,19 +177,24 @@ class FragmentBehaviorTest {
     fun createAndDestroyPlusBackStackPlusOrientationPlusPop() {
         val activityBeforeOrientation = activityRule.launchActivity(null)
         Thread.sleep(1000)
+        check(activityBeforeOrientation.fragmentCount() == 1)
         val beforeOrientationFragment1 = activityBeforeOrientation.fragment1
         activityBeforeOrientation.putIntoBackStackFragment2()
         Thread.sleep(1000)
+        check(activityBeforeOrientation.fragmentCount() == 1)
         val beforeOrientationFragment2 = activityBeforeOrientation.fragment2
         activityBeforeOrientation.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         Thread.sleep(1000)
+        check(activityBeforeOrientation.fragmentCount() == 1)
         val activityAfterOrientation = activityRule.activity
         val afterOrientationFragment1 = activityAfterOrientation.fragment1
         val afterOrientationFragment2 = activityAfterOrientation.fragment2
         activityAfterOrientation.runOnUiThread { activityAfterOrientation.popBackStack() }
         Thread.sleep(1000)
+        check(activityBeforeOrientation.fragmentCount() == 1)
         activityAfterOrientation.finish()
         Thread.sleep(1000)
+        check(activityBeforeOrientation.fragmentCount() == 1)
         Observable.mergeArray(activityBeforeOrientation.events, activityAfterOrientation.events)
             .test()
             .assertValues(
