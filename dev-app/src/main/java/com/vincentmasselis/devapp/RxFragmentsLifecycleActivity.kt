@@ -11,7 +11,7 @@ import io.reactivex.Notification
 import io.reactivex.subjects.ReplaySubject
 
 @SuppressLint("CheckResult")
-class CreateAndDestroyFragmentActivity : AppCompatActivity() {
+class RxFragmentsLifecycleActivity : AppCompatActivity() {
 
     companion object {
         private const val FRAGMENT_1_TAG = "fragment1"

@@ -7,7 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ActivityTest {
+class ActivityDisposeOnStateTest {
 
     @get:Rule
     val mainActivityRule = ActivityTestRule(MainActivity::class.java, true, false)

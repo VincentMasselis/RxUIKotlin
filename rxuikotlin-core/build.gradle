@@ -5,12 +5,12 @@ apply plugin: 'org.jetbrains.dokka-android'
 apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion "28.0.3"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode versionCode
         versionName libVersion
     }

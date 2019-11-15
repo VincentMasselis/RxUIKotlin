@@ -7,7 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ViewHolderTest {
+class ViewHolderDisposeOnStateTest {
 
     @get:Rule
     val adapterActivityRule = ActivityTestRule(AdapterActivity::class.java, true, false)

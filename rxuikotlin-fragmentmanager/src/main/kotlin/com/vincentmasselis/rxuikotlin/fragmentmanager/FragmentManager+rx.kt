@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.isViewCreated
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import io.reactivex.Observable
 import io.reactivex.annotations.CheckReturnValue
@@ -51,8 +52,33 @@ fun FragmentManager.rxFragmentsLifecycle(recursive: Boolean): Observable<Pair<Fr
     downStream.setCancellable { unregisterFragmentLifecycleCallbacks(callbacks) }
 }
 
+/** Returns the list of fragments which have a view created. Emits every fragment with a view created at subscription if any exists. */
+fun FragmentManager.rxViewCreatedFragments(): Observable<List<Fragment>> = Observable
+    .defer {
+        val viewCreatedFragments = fragments.filter { it.isViewCreated() }.toMutableList()
+        rxFragmentsLifecycle(false)
+            .filter { (state, fragment) ->
+                when (state) {
+                    FragmentState.VIEW_CREATED -> {
+                        viewCreatedFragments += fragment
+                        true
+                    }
+                    FragmentState.DESTROY_VIEW -> {
+                        viewCreatedFragments -= fragment
+                        true
+                    }
+                    else -> false
+                }
+            }
+            .map { viewCreatedFragments.toList() }
+            .startWith(viewCreatedFragments.toList())
+    }
+
 @CheckReturnValue
-@Deprecated("This method doesn't work very well when combining addToBackStack and orientation changes, consider using rxFragmentsLifecycle")
+@Deprecated(
+    "This method doesn't work very well when combining addToBackStack and orientation changes",
+    ReplaceWith("rxViewCreatedFragments()")
+)
 fun FragmentManager.rxFragments(): Observable<Set<Fragment>> = rxFragmentsLifecycle(false)
     .filter { it.first == FragmentState.ATTACH || it.first == FragmentState.DETACH }
     .compose { source ->

@@ -13,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class FragmentBehaviorTest {
+class RxFragmentsLifecycleTest {
 
     init {
         enableFragmentManagerDebugLogs()
@@ -22,7 +22,7 @@ class FragmentBehaviorTest {
     private fun FragmentActivity.fragmentCount() = supportFragmentManager.fragments.size
 
     @get:Rule
-    val activityRule = ActivityTestRule(CreateAndDestroyFragmentActivity::class.java, true, false)
+    val activityRule = ActivityTestRule(RxFragmentsLifecycleActivity::class.java, true, false)
 
     @Test
     fun createAndDestroy() {
