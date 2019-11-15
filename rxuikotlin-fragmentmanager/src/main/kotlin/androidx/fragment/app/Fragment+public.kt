@@ -7,3 +7,7 @@ package androidx.fragment.app
  * Using [Fragment.getView] is a bad idea since [Fragment.mView] is not set to null when [Fragment.onDestroyView] is called.
  */
 fun Fragment.isViewCreated() = mPerformedCreateView
+
+fun Fragment.isCreated() = mIsCreated
+
+val FragmentManager.activeFragments: MutableList<Fragment> get() = (this as FragmentManagerImpl).activeFragments

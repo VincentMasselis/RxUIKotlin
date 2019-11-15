@@ -23,6 +23,7 @@
         <activity android:name=".AdapterActivity" />
         <activity android:name=".RxFragmentsLifecycleActivity" />
         <activity android:name=".RxViewCreatedFragmentActivity" />
+        <activity android:name=".RxCreatedFragmentActivity" />
     </application>
 
 </manifest>
