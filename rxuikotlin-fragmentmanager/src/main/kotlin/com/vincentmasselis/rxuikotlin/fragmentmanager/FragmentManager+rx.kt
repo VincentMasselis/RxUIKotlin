@@ -55,6 +55,7 @@ fun FragmentManager.rxFragmentsLifecycle(recursive: Boolean): Observable<Pair<Fr
  *
  * The order of the fragments in the list is the order in which they were added or attached.
  */
+@CheckReturnValue
 fun FragmentManager.rxViewCreatedFragments(): Observable<List<Fragment>> = Observable
     .defer {
         val viewCreatedFragments = fragments.filter { it.isViewCreated() }.toMutableList()
@@ -81,6 +82,7 @@ fun FragmentManager.rxViewCreatedFragments(): Observable<List<Fragment>> = Obser
  *
  * Unlike [rxViewCreatedFragments] the order of the returned set has no meaning.
  */
+@CheckReturnValue
 fun FragmentManager.rxCreatedFragments(): Observable<Set<Fragment>> = Observable
     .defer {
         val createdFragments = activeFragments.apply { retainAll { it.isCreated() } }.toMutableSet()
