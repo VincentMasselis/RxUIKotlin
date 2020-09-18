@@ -3,12 +3,12 @@
 [![Download](https://api.bintray.com/packages/vincentmasselis/maven/rx-ui-kotlin/images/download.svg) ](https://bintray.com/vincentmasselis/maven/rx-ui-kotlin/_latestVersion)
 [![Build Status](https://app.bitrise.io/app/543a61215e5d2cea/status.svg?token=hG0jM55xlaT9IvOgJcyCJA&branch=master)](https://app.bitrise.io/app/543a61215e5d2cea)
 
-Android UI + Kotlin + RxJava2
+Android UI + Kotlin + RxJava3
 
 Made with love at the [Equisense](http://equisense.com) HQ. This library is used in our [Equisense app](https://play.google.com/store/apps/details?id=com.equisense.motions) since a few years.
 
 ## Introduction
-This library is made to manage your subscriptions when fetching data with RxJava2 inside a `Activity`, a `Fragment` or a `ViewHolder`. It cancel your request depending of the state of the lifecycle by disposing your subscription (calling `dispose()` on the `Disposable` object returned by the `subscribe` methods).
+This library is made to manage your subscriptions when fetching data with RxJava3 inside a `Activity`, a `Fragment` or a `ViewHolder`. It cancel your request depending of the state of the lifecycle by disposing your subscription (calling `dispose()` on the `Disposable` object returned by the `subscribe` methods).
 
 RxUIKotlin is lightweight, the .aar file weights less than 50kb and it only require a few dependencies: `appcompat`, `recyclerview`, `rxjava` and `rxandroid`. RxUIKotlin will never change the behavior of your chaning, it only dipose it when you want to.
 
@@ -20,11 +20,13 @@ Unlike [android-disposebag](https://github.com/kizitonwose/android-disposebag), 
 
 ### Restrictions
 
-It works only with [RxJava2](https://github.com/ReactiveX/RxJava), it's designed to work with [Kotlin](https://github.com/JetBrains/kotlin) (usage of extensions) and it dispose only the fragments from the [AndroidX library](https://developer.android.com/guide/components/fragments).
+It works only with [RxJava3](https://github.com/ReactiveX/RxJava), it's designed to work with [Kotlin](https://github.com/JetBrains/kotlin) (usage of extensions) and it dispose only the fragments from the [AndroidX library](https://developer.android.com/guide/components/fragments).
+
+The last supported RxJava2 version is the `1.2.3`
 
 ## Installation
 
-`implementation "com.vincentmasselis.rxuikotlin:rxuikotlin-core:1.2.3"`
+`implementation "com.vincentmasselis.rxuikotlin:rxuikotlin-core:3.0.0" //Use version 1.2.3 for RxJava2`
 
 ## Usage
 
