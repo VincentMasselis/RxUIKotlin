@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.*
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
-import io.reactivex.Observable
-import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * Emits [onNext] event when a [Fragment] from the [FragmentManager] obtains a new [FragmentState]. It never fails and it never completes.
@@ -57,25 +58,25 @@ fun FragmentManager.rxFragmentsLifecycle(recursive: Boolean): Observable<Pair<Fr
  */
 @CheckReturnValue
 fun FragmentManager.rxViewCreatedFragments(): Observable<List<Fragment>> = Observable
-    .defer {
-        val viewCreatedFragments = fragments.filter { it.isViewCreated() }.toMutableList()
-        rxFragmentsLifecycle(false)
-            .filter { (state, fragment) ->
-                when (state) {
-                    FragmentState.VIEW_CREATED -> {
-                        viewCreatedFragments += fragment
-                        true
+        .defer {
+            val viewCreatedFragments = fragments.filter { it.isViewCreated() }.toMutableList()
+            rxFragmentsLifecycle(false)
+                    .filter { (state, fragment) ->
+                        when (state) {
+                            FragmentState.VIEW_CREATED -> {
+                                viewCreatedFragments += fragment
+                                true
+                            }
+                            FragmentState.DESTROY_VIEW -> {
+                                viewCreatedFragments -= fragment
+                                true
+                            }
+                            else -> false
+                        }
                     }
-                    FragmentState.DESTROY_VIEW -> {
-                        viewCreatedFragments -= fragment
-                        true
-                    }
-                    else -> false
-                }
-            }
-            .map { viewCreatedFragments.toList() }
-            .startWith(viewCreatedFragments.toList())
-    }
+                    .map { viewCreatedFragments.toList() }
+                    .startWith(Single.just(viewCreatedFragments.toList()))
+        }
 
 /**
  * Returns a set of created fragments. Emits every already created fragment at subscription.
@@ -84,29 +85,29 @@ fun FragmentManager.rxViewCreatedFragments(): Observable<List<Fragment>> = Obser
  */
 @CheckReturnValue
 fun FragmentManager.rxCreatedFragments(): Observable<Set<Fragment>> = Observable
-    .defer {
-        val createdFragments = activeFragments.apply { retainAll { it.isCreated() } }.toMutableSet()
-        rxFragmentsLifecycle(false)
-            .filter { (state, fragment) ->
-                when (state) {
-                    FragmentState.CREATE -> {
-                        createdFragments += fragment
-                        true
+        .defer {
+            val createdFragments = activeFragments.apply { retainAll { it.isCreated() } }.toMutableSet()
+            rxFragmentsLifecycle(false)
+                    .filter { (state, fragment) ->
+                        when (state) {
+                            FragmentState.CREATE -> {
+                                createdFragments += fragment
+                                true
+                            }
+                            FragmentState.DESTROY -> {
+                                createdFragments -= fragment
+                                true
+                            }
+                            else -> false
+                        }
                     }
-                    FragmentState.DESTROY -> {
-                        createdFragments -= fragment
-                        true
-                    }
-                    else -> false
-                }
-            }
-            .map { createdFragments.toSet() }
-            .startWith(createdFragments.toSet())
-    }
+                    .map { createdFragments.toSet() }
+                    .startWith(Single.just(createdFragments.toSet()))
+        }
 
 @CheckReturnValue
 @Deprecated(
-    "This method doesn't work very well when combining addToBackStack and orientation changes",
-    ReplaceWith("rxCreatedFragments()")
+        "This method doesn't work very well when combining addToBackStack and orientation changes",
+        ReplaceWith("rxCreatedFragments()")
 )
 fun FragmentManager.rxFragments(): Observable<Set<Fragment>> = rxCreatedFragments()

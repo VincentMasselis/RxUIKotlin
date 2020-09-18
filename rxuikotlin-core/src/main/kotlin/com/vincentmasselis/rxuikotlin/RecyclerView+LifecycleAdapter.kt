@@ -1,9 +1,9 @@
 package com.vincentmasselis.rxuikotlin
 
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.Completable
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.disposables.Disposable
 
 @CheckReturnValue
 fun <T : LifecycleViewHolder> RecyclerView.subscribe(adapter: LifecycleAdapter<T>): Disposable = Completable

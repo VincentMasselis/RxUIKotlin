@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentManager
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
 import com.vincentmasselis.rxuikotlin.utils.ViewHolderState
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.functions.Consumer
 
 /**
  * Automatically dispose the [Disposable] when the filled [exceptedState] is reached for the [activityToMonitor]
@@ -43,7 +43,7 @@ fun Disposable.disposeOnState(exceptedState: ActivityState, activityToMonitor: A
 
         override fun onActivityStopped(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.STOP, activity)
 
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) = disposeAndUnregisterIfRequired(ActivityState.SAVE_INSTANCE_STATE, activity)
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = disposeAndUnregisterIfRequired(ActivityState.SAVE_INSTANCE_STATE, activity)
 
         override fun onActivityDestroyed(activity: Activity) = disposeAndUnregisterIfRequired(ActivityState.DESTROY, activity)
     })

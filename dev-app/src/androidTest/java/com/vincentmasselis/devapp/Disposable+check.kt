@@ -1,6 +1,6 @@
 package com.vincentmasselis.devapp
 
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 
 fun Disposable.checkDisposed() = check(isDisposed) { "Situation: $currentSituation, disposable: $this" }

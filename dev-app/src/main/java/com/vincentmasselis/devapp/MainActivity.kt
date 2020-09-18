@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.vincentmasselis.rxuikotlin.disposeOnState
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
 

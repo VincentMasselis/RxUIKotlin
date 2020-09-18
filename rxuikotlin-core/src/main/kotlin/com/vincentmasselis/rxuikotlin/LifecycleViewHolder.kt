@@ -2,9 +2,9 @@ package com.vincentmasselis.rxuikotlin
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**

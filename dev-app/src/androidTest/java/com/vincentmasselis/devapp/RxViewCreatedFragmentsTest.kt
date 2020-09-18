@@ -6,8 +6,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
-import io.reactivex.Notification
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Notification
+import io.reactivex.rxjava3.core.Observable
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

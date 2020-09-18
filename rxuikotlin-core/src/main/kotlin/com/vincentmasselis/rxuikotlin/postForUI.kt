@@ -5,8 +5,8 @@ import android.os.Looper
 import androidx.fragment.app.Fragment
 import com.vincentmasselis.rxuikotlin.utils.ActivityState
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import java.util.concurrent.TimeUnit
 
 /**

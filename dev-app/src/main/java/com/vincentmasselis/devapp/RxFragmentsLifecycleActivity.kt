@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.vincentmasselis.rxuikotlin.fragmentmanager.rxFragmentsLifecycle
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
-import io.reactivex.Notification
-import io.reactivex.subjects.ReplaySubject
+import io.reactivex.rxjava3.core.Notification
+import io.reactivex.rxjava3.subjects.ReplaySubject
 
 @SuppressLint("CheckResult")
 class RxFragmentsLifecycleActivity : AppCompatActivity() {

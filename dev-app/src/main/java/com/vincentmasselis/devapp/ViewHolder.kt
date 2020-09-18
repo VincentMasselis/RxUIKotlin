@@ -4,8 +4,8 @@ import android.view.View
 import com.vincentmasselis.rxuikotlin.LifecycleViewHolder
 import com.vincentmasselis.rxuikotlin.disposeOnState
 import com.vincentmasselis.rxuikotlin.utils.ViewHolderState
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
 
 class ViewHolder(itemView: View) : LifecycleViewHolder(itemView) {
 

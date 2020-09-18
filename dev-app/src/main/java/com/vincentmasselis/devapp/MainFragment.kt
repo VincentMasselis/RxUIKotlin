@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.vincentmasselis.rxuikotlin.disposeOnState
 import com.vincentmasselis.rxuikotlin.utils.FragmentState
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 class MainFragment : Fragment() {
 
