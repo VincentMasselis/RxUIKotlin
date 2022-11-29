@@ -1,3 +1,14 @@
+# [ARCHIVED]
+
+This library will not be updated anymore, please consider using the [library auto-dispose](https://uber.github.io/AutoDispose/) instead of this one.
+
+
+
+
+
+
+
+
 # RxUIKotlin
 
 [![Download](https://api.bintray.com/packages/vincentmasselis/maven/rx-ui-kotlin/images/download.svg) ](https://bintray.com/vincentmasselis/maven/rx-ui-kotlin/_latestVersion)
